@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trust Wallet Connect</title>
+  <script src="https://cdn.jsdelivr.net/npm/@walletconnect/client@1.8.0/dist/umd/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs2/qrcode.min.js"></script>
+</head>
+<body>
+  <h1>Connect to Trust Wallet</h1>
+  <button id="connectWallet">Connect Wallet</button>
+  <div id="qrcode"></div>
+
+  <script>
+    // Initialize WalletConnect
+    const connector = new WalletConnect.default({
+      bridge: "https://bridge.walletconnect.org", // Default WalletConnect bridge server
+    });
+
+    // Connect button event
+    document.getElementById("connectWallet").addEventListener("click", () => {
+      if (!connector.connected) {
+        // Create new session to generate the QR code
+        connector.createSession().then(() => {
+          const uri = connector.uri;
+
+          // Display QR code
+          const qrcodeContainer = document.getElementById("qrcode");
+          qrcodeContainer.innerHTML = ""; // Clear previous QR code
+          new QRCode(qrcodeContainer, uri); // Generate QR code for scanning
+        });
+      }
+    });
+
+    // Listen for connection
+    connector.on("connect", (error, payload) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+      // Extract account and chain ID from the payload
+      const { accounts, chainId } = payload.params[0];
+      console.log("Connected account:", accounts[0]);
+      console.log("Connected chainId:", chainId);
+    });
+
+    // Listen for disconnection
+    connector.on("disconnect", (error, payload) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+      console.log("Disconnected from wallet");
+    });
+  </script>
+</body>
+</html>
