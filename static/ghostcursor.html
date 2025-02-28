@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGL Ghost Cursor</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #2C3E50;
+        }
+
+        canvas#ghost {
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            z-index: 10000;
+            pointer-events: none;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            font-size: 4vw;
+            text-shadow: 0 0 5px #000000;
+        }
+
+        .lil-gui {
+            --width: 300px;
+            max-width: 90%;
+            font-size: 15px;
+            --background-color: rgba(5, 0, 15, .8);
+            --widget-color: rgba(255, 255, 255, .3);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">WebGL Ghost Cursor</div>
+    <canvas id="ghost"></canvas>
+
+    <!-- Vertex Shader -->
+    <script type="x-shader/x-vertex" id="vertShader">
+        precision mediump float;
+
+        varying vec2 vUv;
+        attribute vec2 a_position;
+
+        void main() {
+            vUv = 0.5 * (a_position + 1.0);
+            gl_Position = vec4(a_position, 0.0, 1.0);
+        }
+    </script>
+
+    <!-- Fragment Shader -->
+    <script type="x-shader/x-fragment" id="fragShader">
+        precision mediump float;
+
+        varying vec2 vUv;
+        uniform float u_time;
+        uniform float u_ratio;
+        uniform float u_size;
+        uniform vec2 u_pointer;
+        uniform vec2 u_target_pointer;
+        uniform float u_smile;
+        uniform vec3 u_main_color;
+        uniform vec3 u_border_color;
+        uniform float u_flat_color;
+        uniform sampler2D u_texture;
+
+        void main() {
+            // Shader logic here
+            vec3 color = u_main_color; // Use uniform color
+            gl_FragColor = vec4(color, 1.0);
+        }
+    </script>
+
+    <script type="module" src="ghost.js"></script>
+</body>
+</html>
