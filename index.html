@@ -1,0 +1,2841 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <title>TORR LAB</title>
+    <style>
+            /* Cart Overlay */
+        .overlayct {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlayct.hiddenct {
+            display: none;
+        }
+
+        .cartct {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2),
+                        -5px -5px 10px rgba(255, 255, 255, 0.7);
+            text-align: center;
+        }
+
+        .cartct h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .cartct ul {
+            list-style: none;
+            margin-bottom: 20px;
+            padding: 0;
+        }
+
+        .cartct ul li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .cartct ul li input {
+            width: 40px;
+            text-align: center;
+        }
+
+        .cart-actionsct {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cart-actionsct button {
+            background: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .cart-actionsct button:hover {
+            background: #45a049;
+        }
+
+        .cart-actionsct #closeCart {
+            background: #e53935;
+        }
+
+        .cart-actionsct #closeCart:hover {
+            background: #d32f2f;
+        }
+
+        .trash-icon {
+            cursor: pointer;
+            color: #e53935;
+            font-size: 1.2rem;
+        }
+
+        /*overlay ended */
+/*book demo overlay*/
+    /* Overlay styles */
+    .overlayfm {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      visibility: hidden;
+      opacity: 0;
+      z-index:1000;
+      transition: visibility 0.3s, opacity 0.3s;
+    }
+
+    .overlayfm.activefm {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .iframe-containerfm {
+      position: relative;
+      width: 70%;
+      height: 90%;
+      background: rgba(255,255,255,1);
+      border-radius: 10px;
+      overflow: scroll;
+    }
+.iframe-containerfm::-webkit-scrollbar {
+      width: 13px; /* Width of the scrollbar */
+    }
+
+
+    .close-btnfm {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      z-index:1001;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .close-btnfm:hover {
+      background: darkred;
+    }
+
+    .open-btnfm {
+      margin: 20px auto;
+      display: block;
+      padding: 10px 20px;
+      background: blue;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+.internalX{
+transform:scale(0.7);
+margin-top:-150px;
+}
+
+    .open-btnfm:hover {
+      background: darkblue;
+    }
+/* Mobile-specific styles */
+@media only screen and (max-width: 767px) {
+
+    .iframe-containerfm {
+      position: relative;
+      width: 90%;
+      height: 90%;
+      background: rgba(255,255,255,1);
+      border-radius: 10px;
+      overflow: scroll;
+    } /* Custom scrollbar styles */
+    .iframe-containerfm::-webkit-scrollbar {
+      width: 12px; /* Width of the scrollbar */
+    }
+.internalX{
+transform:scale(1);
+margin:0;
+}
+    .iframe-containerfm::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, #7ea7ff, #7ea7ff);
+      border-radius: 10px;
+      border: 2px solid #ffffff; /* Space between thumb and track */
+    }
+
+    .iframe-containerfm::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(45deg, #4265b1, #7ea7ff);
+    }
+
+    .iframe-containerfm::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 10px;
+    }
+
+    /* Additional mobile-specific styles can go here */
+}
+
+/*overlay ended*/
+.spinner {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+.splbtn{
+    background-color: rgb(10,10,100);
+}
+.splbtn:hover{
+    background-color: #AD310B;
+    border-radius:50%;
+    -webkit-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
+}
+.listhover{
+    transition:transform 200ms linear;
+}
+.listhover:hover{
+    transform:scale(1.1);
+
+}
+
+.spinner:before,
+.spinner:after {
+  box-sizing: border-box;
+  content: '';
+  display: block;
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+  margin-top: -5em; /* Adjust for half size */
+  margin-left: -5em;
+  width: 10em;
+  height: 10em;
+
+  transform-style: preserve-3d;
+  transform-origin: 50%;
+  perspective-origin: 50% 50%;
+  perspective: 340px;
+  background-size: 10em 10em;
+  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjI2NnB4IiBoZWlnaHQ9IjI5N3B4IiB2aWV3Qm94PSIwIDAgMjY2IDI5NyIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4bWxuczpza2V0Y2g9Imh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaC9ucyI+CiAgICA8dGl0bGU+c3Bpbm5lcjwvdGl0bGU+CiAgICA8ZGVzY3JpcHRpb24+Q3JlYXRlZCB3aXRoIFNrZXRjaCAoaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoKTwvZGVzY3JpcHRpb24+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBza2V0Y2g6dHlwZT0iTVNQYWdlIj4KICAgICAgICA8cGF0aCBkPSJNMTcxLjUwNzgxMywzLjI1MDAwMDM4IEMyMjYuMjA4MTgzLDEyLjg1NzcxMTEgMjk3LjExMjcyMiw3MS40OTEyODIzIDI1MC44OTU1OTksMTA4LjQxMDE1NSBDMjE2LjU4MjAyNCwxMzUuODIwMzEgMTg2LjUyODQwNSw5Ny4wNjI0OTY0IDE1Ni44MDA3NzQsODUuNzczNDM0NiBDMTI3LjA3MzE0Myw3NC40ODQzNzIxIDc2Ljg4ODQ2MzIsODQuMjE2MTQ2MiA2MC4xMjg5MDY1LDEwOC40MTAxNTMgQy0xNS45ODA0Njg1LDIxOC4yODEyNDcgMTQ1LjI3NzM0NCwyOTYuNjY3OTY4IDE0NS4yNzczNDQsMjk2LjY2Nzk2OCBDMTQ1LjI3NzM0NCwyOTYuNjY3OTY4IC0yNS40NDkyMTg3LDI1Ny4yNDIxOTggMy4zOTg0Mzc1LDEwOC40MTAxNTUgQzE2LjMwNzA2NjEsNDEuODExNDE3NCA4NC43Mjc1ODI5LC0xMS45OTIyOTg1IDE3MS41MDc4MTMsMy4yNTAwMDAzOCBaIiBpZD0iUGF0aC0xIiBmaWxsPSIjMDAwMDAwIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIj48L3BhdGg+CiAgICA8L2c+Cjwvc3ZnPg==");
+}
+
+.spinner:before {
+  transform: rotateX(60deg) rotateY(45deg) rotateZ(45deg);
+  animation: rotateBefore 750ms infinite linear reverse;
+}
+
+.spinner:after {
+  transform: rotateX(240deg) rotateY(45deg) rotateZ(45deg);
+  animation: rotateAfter 750ms infinite linear;
+}
+
+/* Animations */
+@keyframes rotateBefore {
+  from {
+    transform: rotateX(60deg) rotateY(45deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateX(60deg) rotateY(45deg) rotateZ(-360deg);
+  }
+}
+
+@keyframes rotateAfter {
+  from {
+    transform: rotateX(240deg) rotateY(45deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateX(240deg) rotateY(45deg) rotateZ(360deg);
+  }
+}
+@keyframes fade {
+    0%{
+        opacity: 1;
+        transform: scale(1);
+    }
+    70%{
+        opacity: 1;
+        transform: scale(1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(10);
+    }
+}
+
+@keyframes rotateit{
+    from {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg) scale(0.6);;
+    opacity:0;
+  }
+}
+@keyframes rotateitv{
+    from {
+    transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg) scale(0.1);;
+    opacity:0;
+
+  }
+  to {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);;
+    opacity:1;
+  }
+}
+    /* Custom scrollbar styles */
+    body::-webkit-scrollbar {
+      width: 1px; /* Width of the scrollbar */
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, #7ea7ff, #7ea7ff);
+      border-radius: 10px;
+      border: 2px solid #ffffff; /* Space between thumb and track */
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(45deg, #4265b1, #7ea7ff);
+    }
+
+    body::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 10px;
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+    /*scroll bar */
+        .grid-image {
+            width: 150px;
+            height: 150px;
+        }
+        .navbar{
+            position:fixed;
+            top:0;
+            left:0;
+            background-color:rgba(0,0,0,0.7);
+            z-index:100;
+            width:100%;
+        }
+        .nav-link {
+            transition: transform 0.3s ease, color 0.3s ease;
+            color: #ffffff; /* White text for better visibility */
+        }
+        .nav-link:hover {
+            transform: scale(1.1);
+            color: #ffed4a; /* Bright yellow on hover */
+        }
+        #mobile-nav {
+            top: 0px; /* Align the dropdown below the header */
+            position: fixed;
+	    background: linear-gradient(to right, #ff5e62, #ffb299);
+
+
+            right: -300px; /* Hide offscreen initially */
+            height: calc(100% - 0px); /* Full height minus header height */
+            width: 250px;
+            background-color: #1f2937; /* Dark background for the dropdown */
+            transition: right 0.3s ease; /* Smooth sliding animation */
+            z-index: 1000; /* Ensure it appears above other elements */
+        }
+        #mobile-nav.active {
+            right: 0; /* Slide in from the right */
+        }
+        .mobile-nav-enter {
+margin-top: 0px;
+             /* Equal to header height */
+            animation: slideIn 0.3s forwards;
+            display:block;
+        }
+        .mobile-nav-leave {
+            margin-top: 0px;
+            animation: slideOut 0.3s forwards;
+        }
+        @keyframes slideIn {
+            from {
+                right: -300px;
+            }
+            to {
+                right: 0;
+            }
+        }
+        @keyframes slideOut {
+            from {
+                right: 0;
+            }
+            to {
+                right: -300px;
+            }
+        }
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Dark backdrop */
+            z-index: 900; /* Behind the menu but above other content */
+            display: none; /* Initially hidden */
+        }
+        .backdrop.active {
+            display: block; /* Show when menu is active */
+        }
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #ffffff; /* White color for the close button */
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        /*.nav-container {*/
+           /* padding-top: 60px; /* Space for the close button */
+        /*    position:fixed;*/
+        /*}*/
+
+/*section2 css here start*/
+ .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+/*section2 css ended here*/
+/*section youtube overlay */
+        .btn-watch {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Overlay styles */
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+            z-index: 1000; /* Ensure overlay is on top */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay-content {
+            position: relative;
+            background-color: #2C3E50;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            max-height: 80%;
+            overflow: hidden;
+        }
+
+        /* Close button */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        /* Container to clip iframe */
+        .iframe-container {
+            position: relative;
+            overflow: hidden; /* Ensures clipped content is hidden */
+            width: 100%;
+            border-radius:10px;
+            height: 500px; /* Visible height of the iframe */
+            clip-path: inset(50px 0 50px 0); /* Adjust these values to hide top and bottom */
+        }
+        .iframe-container::before {
+  content: '';
+  position: absolute;
+  margin:5px;
+  left: 0;
+  width: 200px;
+  height: 200px; /* Set the height of the image overlay */
+  background-image: url('/static/pp12.png'); /* Add your image URL */
+  background-position: center; /* Adjust if necessary */
+  background-size: cover;
+  z-index: 10001; /* Place image above the iframe but below any other content */
+}
+
+        .iframe-container iframe {
+            position: absolute;
+            top: -50px; /* Move the iframe up to align it correctly */
+
+            border-radius:10px;
+            left: 0;
+            width: 100%;
+            height: 600px; /* Should be tall enough to ensure hidden parts */
+        }
+    /*youtube overlay ended */
+
+/*section3 started here*/
+.animate-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .animate-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+/*section3 ended here */
+/*section4 started here */
+.fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+/*section 4 ended here*/
+
+/* section schools scrolling */
+body {
+        margin: 0;
+        overflow-x: hidden; /* Prevent vertical scrolling */
+    }
+
+    .scroll-container {
+        width: calc(100vw * 2); /* Full viewport width */
+        overflow: hidden; /* Hide overflow */
+        position: relative;
+    }
+
+    .scroll-bo {
+        display: flex;
+        white-space: nowrap; /* Prevent wrapping of items */
+    }
+
+    .element {
+        min-width: 100px; /* Width of each element */
+        padding: 20px;
+        background-color: lightblue;
+        border: 1px solid #000;
+        margin-right: 10px; /* Space between items */
+    }
+/* section schools scrolling ended here */
+/* cart section started here  */
+.floating-cart {
+            position: fixed;
+            bottom: 20px; /* Distance from the bottom */
+            right: 20px; /* Distance from the right */
+            z-index: 10; /* Ensure it stays on top */
+        }
+
+        #cartButton {
+            background-color: #ff4081; /* Button color */
+            border: none;
+            border-radius: 50%; /* Circular button */
+            color: white;
+            font-size: 24px;
+            padding: 15px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        #cartButton:hover {
+            background-color: #e91e63; /* Darker shade on hover */
+        }
+
+        .cart-content {
+            display: none; /* Initially hidden */
+            position: absolute;
+            bottom: 60px; /* Position above the button */
+            right: 0;
+            width: 250px; /* Width of the cart */
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            z-index: 1001; /* Ensure it appears above the button */
+        }
+
+        .cart-content h3 {
+            margin: 0;
+        }
+
+        .cart-content button {
+            margin-top: 10px;
+            background-color: #ff4081; /* Close button color */
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+/*cart section ended here */
+.spinner{
+    position:fixed;
+    top:0;
+    left:0;
+    background-color:white;
+    z-index:301;
+    width:100%;
+    height:100%;
+}
+
+/* main page cards with skills*/
+.mainpagecard{
+    transition:transform 0.5s linear forwards,color 0.5s linear forwards;
+    cursor:pointer;
+}
+.mainpagecard:hover{
+transform:scale(0.8) rotateX(20deg) rotateY(20deg);
+color:blue;
+}
+
+/*home torrlab*/
+.lightning {
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3) 20%, transparent 70%);
+    mix-blend-mode: screen;
+    opacity: 0.7;
+    animation: lightning-flash 3s infinite ease-in-out;
+  }
+
+  @keyframes lightning-flash {
+    0%, 70%, 100% {
+      opacity: 0;
+      transform:rotateY(180deg);
+    }
+    50% {
+      opacity: 1;
+      transform:rotateY(359deg);
+    }
+  }
+/*trash delete products */
+.delete{
+    transition:opacity 0.3s linear;
+}
+
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="spinner"></div>
+    <script>
+        window.onload = function(){
+              document.getElementsByClassName("spinner")[0].style.animation = "fade 5s 1";
+              setTimeout(function(){
+                  document.querySelector(".spinner").style.display = "none";
+              },5000)
+          }
+    </script>
+    <header class="navbar from-blue-600 to-purple-300 text-white shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div style="width:200px;height:60px;" class="text-2xl font-bold logo"><img style='margin-top:-70px;width:200px; height:200px; ' src='/static/pp12.png'></div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#home" onclick='home(0)' class="nav-link">Home</a>
+                <a href="#products" onclick='products(1)' class="nav-link">Products</a>
+                <a href="#school-program" onclick="school(2)" class="nav-link">School Program</a>
+                <a href="#education" onclick="education(3)" class="nav-link">Education</a>
+                <a href="#projects" onclick="projects(4)" class="nav-link">Projects</a>
+                <a href="#about" onclick="about(5)" class="nav-link">About</a>
+            </nav>
+            <div class="md:hidden relative">
+                <button id="mobile-menu" class="focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    <script>
+window.addEventListener('scroll',function(){
+  const viewportHeight = window.innerHeight;
+  let nav =  document.querySelector(".navbar");
+  let logo = document.querySelector('.logo');
+  let a = nav.querySelectorAll('a');
+  let b = nav.querySelector('a');
+  if(window.scrollY >= viewportHeight*0.06){
+    nav.style.backgroundColor='#008080';
+    nav.style.boxShadow='0 0 10px grey';
+    logo.style.color='black';
+    a.forEach(link=>{
+      link.style.color='black';
+    })
+    nav.style.color = 'black';
+  }
+  else{
+    nav.style.backgroundColor='rgba(0,0,0,0.7)';
+    nav.style.boxShadow='0 0 0px grey';
+    logo.style.color='white';
+    a.forEach(link=>{
+      link.style.color='white';
+    })
+    nav.style.color = 'white';
+  }
+})</script>
+    <div class="backdrop" id="backdrop">
+
+    <div id="mobile-nav" style='display:none;' class="mobile-nav-leave">
+        <button class="close-button" id="close-button">&times;</button>
+        <div class="nav-container">
+            <nav class="flex flex-col space-y-2 p-4">
+                <button href="#home" onclick="home(0)" class="nav-link py-2 px-4 rounded hover:bg-blue-600 transition">Home</button>
+                <button href="#products" onclick="products(1)" class="nav-link py-2 px-4 rounded hover:bg-blue-600 transition">Products</button>
+                <button href="#school-program" onclick="school(2)" class="nav-link py-2 px-4 rounded hover:bg-blue-600 transition">School Program</button>
+                <button href="#education" onclick="education(3)" class="nav-link py-2 px-4 rounded hover:bg-blue-600 transition">Education</button>
+                <button href="#projects" onclick="projects(4)" class="nav-link py-2 px-4 rounded hover:bg-blue-600 transition">Projects</button>
+                <button href="#about" onclick="about(5)" class="nav-link py-2 px-4 rounded hover:bg-blue-600 transition">About</button>
+            </nav>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu');
+        const mobileNav = document.getElementById('mobile-nav');
+        const backdrop = document.getElementById('backdrop');
+        const closeButton = document.getElementById('close-button');
+
+        function toggleMenu() {
+            const isActive = mobileNav.classList.toggle('active');
+            backdrop.classList.toggle('active', isActive); // Show backdrop when menu is active
+
+            if (isActive) {
+                mobileNav.classList.remove('mobile-nav-leave');
+                mobileNav.classList.add('mobile-nav-enter');
+                mobileNav.style.display='block'
+            } else {
+                mobileNav.classList.remove('mobile-nav-enter');
+                mobileNav.classList.add('mobile-nav-leave');
+                // Delay removing the active class to allow for animation
+                setTimeout(() => mobileNav.classList.remove('active'), 300);
+            }
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMenu);
+        closeButton.addEventListener('click', toggleMenu);
+        backdrop.addEventListener('click', toggleMenu);
+    </script>
+<!--page home-->
+<div class="Home">
+<!------section2---------->
+<section class="bg-cover bg-center fade-in bg-opacity-50" style="background-image: url('static/bg.webp');height:90vh;">
+        <div class="container py-5">
+            <div class="row" style="margin-top:50px">
+                <div class="col-md-6">
+                    <h1 class="text-4xl font-bold mb-4 bg-gradient-to-r from-red-400 via-purple-700 to-blue-500 text-white p-2 bg-opacity-25" style='background-color:rgba(235,235,235,0.5);opacity:90%; color:#4954D1;padding:10px'>Next-Gen Learning with STEM, AI, and Robotics!</h1>
+                    <div style="display:block; position:relative; height:200px;">
+                    <div style='position:absolute; padding:40px; font-size:1.3rem;  border-radius: 10% 26% 41% 36% / 26% 45% 52% 38% ; z-index: -1; opacity: 0.9; box-shadow:inset 10px 10px 15px rgba(0, 100, 0, 0.1), inset -10px -10px 20px rgba(255, 255, 255, 0.5), 20px 25px 30px rgba(0, 200, 0, 0.07), 15px 20px 25px rgba(0, 100, 0, 0.05);' class="bg-gradient-to-r from-blue-400 via-purple-700 to-red-500 text-white p-2 bg-opacity-25"  style='background-color:rgba(0,0,0,0.7);'>
+                     <div class="absolute inset-0 lightning"></div>
+                    <p style=' opacity:0%;' class=" mb-4 text-white">TORRLab is revolutionizing the way K-12 students learn about 21st-century skills, AI, and computer education with an exciting and comprehensive approach.TORRLab is revolutionizing .</p>
+                    </div>
+                    <p style='position:absolute; opacity:100%; margin:40px; left:4px; top:4px;' class="text-white">TORRLab is revolutionizing the way K-12 students learn about 21st-century skills, AI, and computer education with an exciting and comprehensive approach.</p>
+
+                    </div>
+                    <div class="flex space-x-2">
+                        <a  onclick='openOverlay()' style="text-decoration: none; cursor: pointer; " class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105">
+                            Watch Video
+                        </a>
+                        <a onclick="showOverlayfm()" style="text-decoration: none; cursor: pointer; " class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105">
+                            Book a Demo
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 text-center">
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+<!------section2end----------->
+<!-----section3 started--------->
+
+<div class="container mx-auto py-8">
+    <h2 class="text-4xl font-bold text-center text-blue-600 mb-4">Empowering Kids with the Right Future Skills</h2>
+    <hr class="border-t-2 border-blue-300 mb-8">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div onclick="mainpageclicked(0)" class="mainpagecard card bg-white rounded-lg p-6 animate-in hover:text-blue-500">
+            <img loading="lazy" decoding="async" src="/static/scratch.png" class="w-full h-40 object-cover rounded-t-lg" alt="Coding">
+            <h3 class="text-lg font-semibold text-gray-800 mt-2">MIT (Massachusetts Institute of Technology, Cambridge, USA)<br>Visual Programming</h3>
+        </div>
+        <div onclick="mainpageclicked(1)" class="mainpagecard card bg-white shadow-lg rounded-lg p-6 animate-in hover:text-blue-500">
+            <img loading="lazy" decoding="async" src="/static/abc3.jpeg" class="w-full h-40 object-cover rounded-t-lg" alt="Artificial Intelligence">
+            <h3 class="text-lg font-semibold text-gray-800 mt-2">NGSS (Next Generation Science Standards) Learning</h3>
+        </div>
+        <div onclick="mainpageclicked(2)" class="mainpagecard card bg-white shadow-lg rounded-lg p-6 animate-in hover:text-blue-500">
+            <img loading="lazy" decoding="async" src="/static/abc4.jpeg" class="w-full h-40 object-cover rounded-t-lg" alt="Machine Learning">
+            <h3 class="text-lg font-semibold text-gray-800 mt-2">Web Development</h3>
+        </div>
+        <div onclick="mainpageclicked(3)" class="mainpagecard card bg-white shadow-lg rounded-lg p-6 animate-in hover:text-blue-500">
+            <img loading="lazy" decoding="async" src="/static/abc1.jpeg" class="w-full h-40 object-cover rounded-t-lg" alt="Robotics">
+            <h3 class="text-lg font-semibold text-gray-800 mt-2">3D Modelling</h3>
+        </div>
+        <!-- Add more cards as needed -->
+    </div>
+    <br>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div onclick="mainpageclicked(4)" class="mainpagecard card bg-white shadow-lg rounded-lg p-6 animate-in hover:text-blue-500">
+            <img loading="lazy" decoding="async" src="/static/abc5.jpeg" class="w-full h-40 object-cover rounded-t-lg" alt="Coding">
+            <h3 class="text-lg font-semibold text-gray-800 mt-2">Game Development</h3>
+        </div>
+        <div onclick="mainpageclicked(5)" class="mainpagecard card bg-white shadow-lg rounded-lg p-6 animate-in hover:text-blue-500">
+            <img loading="lazy" decoding="async" src="/static/abc6.jpg" class="w-full h-40 object-cover rounded-t-lg" alt="Artificial Intelligence">
+            <h3 class="text-lg font-semibold text-gray-800 mt-2">IoT & ML</h3>
+        </div>
+        <div onclick="mainpageclicked(6)" class="mainpagecard card bg-white shadow-lg rounded-lg p-6 animate-in hover:text-blue-500">
+            <img loading="lazy" decoding="async" src="/static/abc2.jpeg" class="w-full h-40 object-cover rounded-t-lg" alt="Machine Learning">
+            <h3 class="text-lg font-semibold text-gray-800 mt-2">Robotics & AI</h3>
+        </div>
+        <div onclick="mainpageclicked(7)" class="mainpagecard card bg-white shadow-lg rounded-lg p-6 animate-in hover:text-blue-500">
+            <img loading="lazy" decoding="async" src="/static/abc7.jpg" class="w-full h-40 object-cover rounded-t-lg" alt="Robotics">
+            <h3 class="text-lg font-semibold text-gray-800 mt-2">AR (Augmented Reality) / VR (Virtual Reality)</h3>
+        </div>
+        <!-- Add more cards as needed -->
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const cards = document.querySelectorAll('.card');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1 // Trigger when 10% of the element is visible
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible'); // Add class to trigger animation
+                observer.unobserve(entry.target); // Stop observing once it's visible
+            }
+        });
+    }, observerOptions);
+
+    cards.forEach(card => {
+        observer.observe(card); // Start observing the card
+    });
+});
+
+function showOverlay() {
+      document.getElementById('overlay').style.display = 'flex';
+    }
+
+    // Function to close overlay
+    function closeOverlay() {
+      document.getElementById('overlay').style.display = 'none';
+    }
+</script>
+
+
+
+<!--------section3 ended-------->
+<!--section4 started here-->
+
+<div class=" text-white">
+    <h1 class="text-center text-success text-4xl py-10">Advance Next-Gen Lab Setup we provide</h1>
+
+    <div id='templating' class="max-w-7xl mx-auto space-y-10 px-4">
+        <!-- Entries Loop -->
+        <!-- Repeat this block for each initiative -->
+        <div class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <img src="/static/ai.jpg" alt="Education Initiative" class="rounded-lg transform transition duration-500 hover:scale-105" loading="lazy">
+            </div>
+            <div class="w-full md:w-1/2  p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl text-primary font-bold mb-4">Discover Advance AI Labs</h2>
+                <p class="mb-4 text-secondary">Our AI lab setup includes high-performance computers with powerful processors and user-friendly software. It features hands-on projects, collaborative workspaces, and online resources to support learning. Interactive workshops with experts and a flexible design ensure an engaging and safe environment for exploring artificial intelligence.</p>
+                <a href="#" class="text-yellow-300 hover:underline">Learn More</a>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <img src="static/robotics.jpg" alt="Education Initiative" class="rounded-lg transform transition duration-500 hover:scale-105" loading="lazy">
+            </div>
+            <div class="w-full md:w-1/2  p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl text-primary font-bold mb-4">Discover Advance Robotics Labs</h2>
+                <p class="mb-4 text-secondary">Our robotic lab setup features cutting-edge robotics kits and tools that allow students to design, build, and program their own robots. With hands-on projects, collaborative workspaces, and access to online tutorials, students can explore concepts in engineering and programming. The lab encourages creativity and problem-solving, making robotics fun and educational! Students will also learn about sensors and automation, enhancing their understanding of real-world applications. The lab supports teamwork, enabling students to collaborate on challenges and innovate together. Overall, it provides a dynamic environment for developing critical thinking and technical skills.</p>
+                <a href="#" class="text-yellow-300 hover:underline">Learn More</a>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <img class="rounded-lg transform transition duration-500 hover:scale-105" src="/static/scratchlab1.jpg" alt="Education Initiative" class="rounded-lg transform transition duration-500 hover:scale-105" loading="lazy">
+            </div>
+            <div class="w-full md:w-1/2  p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl text-primary font-bold mb-4">Virtual Graphical Programming Lab </h2>
+                <p class="mb-4 text-secondary">Our virtual programming lab setup uses graphical blocks to make learning programming easy and engaging. Students can explore Arduino programming and basic coding concepts by simply dragging and dropping blocks, eliminating the need for complex syntax. This interactive platform encourages creativity and problem-solving, providing a user-friendly environment for hands-on experimentation while making coding accessible and fun!</p>
+                <a href="#" class="text-yellow-300 hover:underline">Learn More</a>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <img src="/static/modeling.png" alt="Education Initiative" class="rounded-lg transform transition duration-500 hover:scale-105" loading="lazy">
+            </div>
+            <div class="w-full md:w-1/2  p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl text-primary font-bold mb-4">Computer Graphics Modelling Lab </h2>
+                <p class="mb-4 text-secondary">The Computer Graphics Modeling Lab at TORR Lab is a hub for innovation, where students can explore the fundamentals and cutting-edge techniques in computer graphics. We offer tailored courses and lab setups that guide learners through the process of creating realistic models and visualizations, preparing them for careers in fields like game design, virtual reality, and digital content creation.
+
+Join us at TORR Lab to unleash your creative potential and dive deep into the world of computer graphics!</p>
+                <a href="#" class="text-yellow-300 hover:underline">Learn More</a>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <img src="/static/ARVR.png" alt="Education Initiative" class="rounded-lg transform transition duration-500 hover:scale-105" loading="lazy">
+            </div>
+            <div class="w-full md:w-1/2  p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl text-primary font-bold mb-4">Augmented Reality (AR) and Virtual Reality (VR) Lab </h2>
+                <p class="mb-4 text-secondary">The AR and VR Lab at TORR Lab offers specialized courses and lab setups that introduce learners to the core concepts of augmented and virtual reality. Our goal is to prepare students for careers in industries such as game development, interactive media, architecture, and more by providing them with hands-on experience in creating AR and VR applications.
+
+Join TORR Lab to experience the future of technology and be part of the AR and VR revolutio</p>
+                <a href="#" class="text-yellow-300 hover:underline">Learn More</a>
+            </div>
+        </div>
+        <!-- Repeat the above block 9 more times with different content -->
+    </div>
+
+</div>
+
+
+<!--section ended-->
+<!--section5 started-->
+<!--
+<div class=" text-primary">
+    <h1 class="text-center text-primary text-4xl py-10">Awards and Recognitions</h1>
+    <div style="justify-content:center; margin: 5%; margin-top: 0; margin-bottom: 0;" class="row justify-content-center">
+        <div style="margin: 20px;">
+            <img src="/static/EM.jpg" style="border:3px solid orangered; width:150px; height:150px;" class="rounded-circle img-fluid "/>
+            <div style="width:230px; height: 200px;  background-color: orangered; border-radius: 15px; margin-top: -120px; margin-left: -35px;" >
+
+            </div>
+        </div>
+        <div style="margin: 20px;">
+            <img src="static/EM1.jpg" style="border:3px solid orangered; width:150px; height:150px;" class="rounded-circle img-fluid "/>
+            <div style="width:230px; height: 200px;  background-color: orangered; border-radius: 15px; margin-top: -120px; margin-left: -35px;" >
+
+            </div>
+        </div>
+        <div style="margin: 20px;">
+            <img src="static/EM2.jpg" style="border:3px solid orangered; width:150px; height:150px;" class="rounded-circle img-fluid "/>
+            <div style="width:230px; height: 200px;  background-color: orangered; border-radius: 15px; margin-top: -120px; margin-left: -35px;" >
+
+            </div>
+        </div>
+        <div style="margin: 20px;">
+            <img src="static/EM3.jpg" style="border:3px solid orangered; width:150px; height:150px;" class="rounded-circle img-fluid "/>
+            <div style="width:230px; height: 200px;  background-color: orangered; border-radius: 15px; margin-top: -120px; margin-left: -35px;" >
+
+            </div>
+        </div>
+        <div style="margin: 20px;">
+            <img src="static/EM$.jpg" style="border:3px solid orangered; width:150px; height:150px;" class="rounded-circle img-fluid "/>
+            <div style="width:230px; height: 200px;  background-color: orangered; border-radius: 15px; margin-top: -120px; margin-left: -35px;" >
+
+            </div>
+        </div>
+
+
+
+        </div>
+
+</div>
+        <!--section ended-->
+<!--section6 started here
+<div>
+    <h1 class="text-center text-primary text-4xl py-10">Harness the Power of Partnership: Together We Can Achieve More!</h1>
+
+        <div style="justify-content:center; margin: 5%; margin-top: 0; margin-bottom: 0;" class="row justify-content-center">
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p1.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p2.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p3.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p4.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p5.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p6.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p7.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p8.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p9.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p10.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p11.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p12.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p13.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p14.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p15.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p16.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p17.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p18.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p19.jpg" style=" width:100%; height:100%;"/> </div>
+            
+            <div style="border: 2px solid grey; border-radius: 10px; width: 150px; height: 150px; margin: 2px;"><img src="static/p20.jpg" style=" width:100%; height:100%;"/> </div>
+            
+
+        </div>
+
+</div>
+
+<!--section 7 started here-->
+<br>
+<br><br><br>
+<div>
+    <h1 class="text-center text-primary text-4xl py-10">Whats Included in AI and Robotics Lab for School</h1>
+
+    <div id='templating' class="max-w-7xl mx-auto space-y-10 px-4">
+        <!-- Entries Loop -->
+        <!-- Repeat this block for each initiative -->
+        <div class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <img src="static/robotickit.jpg" alt="Education Initiative" class="rounded-lg" loading="lazy">
+            </div>
+            <div class="w-full md:w-1/2  p-6 " onmouseover="this.style.borderRadius='50px';" onmouseout="this.style.borderRadius='19% 54% 52% 22% / 20% 28% 61% 25% ';" style="transition: border-radius 200ms linear; border-radius:19% 54% 52% 22% / 20% 28% 61% 25% ; background-color:rgba(0,100,0,0.1); box-shadow:inset 2px 2px 5px rgba(0, 0, 200, 0.1),3px 4px 6px rgba(0, 150, 0, 0.1),inset -3px -3px 4px rgba(255, 255, 255, 0.8);">
+                <h2 class="text-2xl text-primary font-bold mb-4">Kits for AI & Robotics Lab</h2>
+                <p class="mb-4 text-black">Equip your school with a Next-Gen AI laboratory along with best AI-learning kits Quarky, DIY kits like Mars Rover and Humanoid, consumables, and hands-on project and activities making your students AI learning journey superfun!</p>
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105">
+                    Explore Kits
+                </a>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2  p-6 " onmouseover="this.style.borderRadius='50px';" onmouseout="this.style.borderRadius='19% 54% 52% 22% / 20% 28% 61% 25% ';" style="transition: border-radius 200ms linear; border-radius:19% 54% 52% 22% / 20% 28% 61% 25% ; background-color:rgba(0,100,0,0.1); box-shadow:inset 2px 2px 5px rgba(0, 0, 200, 0.1),3px 4px 6px rgba(0, 150, 0, 0.1),inset -3px -3px 4px rgba(255, 255, 255, 0.8);">
+                <h2 class="text-2xl text-primary font-bold mb-4">Coding and AI Platform</h2>
+                <p class="mb-4 text-black">Get unlimited access to AI-ML projects like face detection, object classification, machine learning models, self-driving car, and speech recognition with PictoBlox – programming software for schools with Block & Python coding environment! Avail premium features like bulk account creation and assignment submission with AI Lab.</p>
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105">
+                    Try PictoBlox
+                </a>
+            </div>
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <img src="static/ailab1.jpg" alt="Education Initiative" class="rounded-lg" loading="lazy">
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <img src="static/syllabus.jpg" alt="Education Initiative" class="rounded-lg" loading="lazy">
+            </div>
+            <div class="w-full md:w-1/2  p-6 " onmouseover="this.style.borderRadius='50px';" onmouseout="this.style.borderRadius='19% 54% 52% 22% / 20% 28% 61% 25% ';" style="transition: border-radius 200ms linear; border-radius:19% 54% 52% 22% / 20% 28% 61% 25%  ; background-color:rgba(0,100,0,0.1); box-shadow:inset 2px 2px 5px rgba(0, 0, 200, 0.1),3px 4px 6px rgba(0, 150, 0, 0.1),inset -3px -3px 4px rgba(255, 255, 255, 0.8);">
+                <h2 class="text-2xl text-primary font-bold mb-4">Structured Curriculum & Resources</h2>
+                <p class="mb-4 text-black">Certified AI curriculum is aligned with international boards like CBSE/IB/IGCSE/ICSE/CSTA/CIE and specifically designed grade-wise AI syllabus for students of grades 3rd to 12th with AI Text Book and Activity Workbook to introduce them to technological activities in Artificial Intelligence, Robotics, Coding, and much more.</p>
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105">
+                    Explore Curriculum
+                </a>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2  p-6 " onmouseover="this.style.borderRadius='50px';" onmouseout="this.style.borderRadius='19% 54% 52% 22% / 20% 28% 61% 25% ';" style="transition: border-radius 200ms linear; border-radius:19% 54% 52% 22% / 20% 28% 61% 25%  ; background-color:rgba(0,100,0,0.1); box-shadow:inset 2px 2px 5px rgba(0, 0, 200, 0.1),3px 4px 6px rgba(0, 150, 0, 0.1),inset -3px -3px 4px rgba(255, 255, 255, 0.8);">
+                <h2 class="text-2xl text-primary font-bold mb-4">Teacher Development Programs</h2>
+                <p class="mb-4 text-black">For delivering Artificial Intelligence and Machine Learning education to students, our master AI trainers will train and upskill computer science teachers, STEM faculty, and school IT staff. We provide dedicated live training sessions and curated short courses for teachers.</p>
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105">
+                    Contact Us
+                </a>
+            </div>
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <img src="static/teacher.jpg" alt="Education Initiative" class="rounded-lg" loading="lazy">
+            </div>
+        </div>
+    </div>
+</div>
+<!--section ended -->
+<!--section8 started-->
+<div>
+    <h1 class="text-center text-primary text-4xl py-10">Book Free Demo Today</h1>
+    <div id='templating' class="max-w-7xl mx-auto space-y-10 px-4">
+
+        <div class="flex flex-col md:flex-row space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2  p-6 ">
+                <h2 class="text-2xl text-primary font-bold mb-4">Experience the power of AI and Robotics with us!</h2>
+                <p class="mb-4 text-black">
+
+Discover the power of the Torrlab ecosystem – a revolutionary Coding, AI, and Robotics solution for schools! Our educational specialists are ready to help you harness the potential of this cutting-edge technology. In just one hour, we can align the right resources with your specific educational needs and unlock the endless possibilities Torrlab offers. Contact us for a free, customized demonstration tailored to your school’s schedule. Don’t wait—let Torrlab transform the way you teach and learn!                    </p>
+            </div>
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <div style="padding: 10px; height: 50px; border-top-left-radius: 20px; border-top-right-radius: 20px; margin-top: 20px;" class="w-full bg-blue-600">
+                    <h2 class="text-center text-white text-2xl ">Request Your Free Demo Today</h2>
+                </div>
+                <div style="color: #1f2937; text-decoration: dotted;" class="w-full bg-blue-200">
+                    <div class="container">
+                        <div class="row">
+                          <div class="col border-blue-600">
+                            <div>
+                                <p>Enter Full Name</p>
+                                <input placeholder="Enter Full Name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                            </div>
+                          </div>
+                          <div class="col border-blue-600">
+                            <div>
+                                <p>Enter Email</p>
+                                <input type="email" placeholder="Enter Email Address" type="text" class="form-control w-full" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    <div style="padding: 20px;">
+                        <p>Enter Mobile Number</p>
+                        <input placeholder="please enter Mobile Number With country Code (+1987726524)" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                    </div>
+                    <div style="padding: 20px; padding-top: 0px;">
+                        <p>Designation</p>
+                            <select class="form-control" required="required" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <option value="Educator">Educator</option>
+                                <option value="Management">Management</option>
+                                <option value="Principal">Principal</option>
+                                <option value="Parent">Parent</option>
+                                <option value="Trainer">Trainer</option>
+                                <option value="Student">Student</option>
+                                <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div style="padding: 20px; padding-top: 0px;">
+                        <p>School/Organisation</p>
+                        <input placeholder="Organisation Name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                    </div>
+
+                    <div style="padding: 20px; padding-top: 0px;">
+                        <p>School/Organisation</p>
+                        <select class="form-control" required="required" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                            <option value="India">India</option>
+                            <option value="Afghanistan">Afghanistan</option>
+                            <option value="Albania">Albania</option>
+                            <option value="Algeria">Algeria</option>
+                            <option value="Andorra">Andorra</option>
+                            <option value="Angola">Angola</option>
+                            <option value="Antigua &amp; Deps">Antigua &amp; Deps</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Armenia">Armenia</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Austria">Austria</option>
+                            <option value="Azerbaijan">Azerbaijan</option>
+                            <option value="Bahamas">Bahamas</option>
+                            <option value="Bahrain">Bahrain</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="Barbados">Barbados</option>
+                            <option value="Belarus">Belarus</option>
+                            <option value="Belgium">Belgium</option>
+                            <option value="Belize">Belize</option>
+                            <option value="Benin">Benin</option>
+                            <option value="Bhutan">Bhutan</option>
+                            <option value="Bolivia">Bolivia</option>
+                            <option value="Bosnia Herzegovina">Bosnia Herzegovina</option>
+                            <option value="Botswana">Botswana</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="Brunei">Brunei</option>
+                            <option value="Bulgaria">Bulgaria</option>
+                            <option value="Burkina">Burkina</option>
+                            <option value="Burundi">Burundi</option>
+                            <option value="Cambodia">Cambodia</option>
+                            <option value="Cameroon">Cameroon</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Cape Verde">Cape Verde</option>
+                            <option value="Central African Rep">Central African Rep</option>
+                            <option value="Chad">Chad</option>
+                            <option value="Chile">Chile</option>
+                            <option value="China">China</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Comoros">Comoros</option>
+                            <option value="Congo">Congo</option>
+                            <option value="Congo {Democratic Rep}">Congo {Democratic Rep}</option>
+                            <option value="Costa Rica">Costa Rica</option>
+                            <option value="Croatia">Croatia</option>
+                            <option value="Cuba">Cuba</option>
+                            <option value="Cyprus">Cyprus</option>
+                            <option value="Czech Republic">Czech Republic</option>
+                            <option value="Denmark">Denmark</option>
+                            <option value="Djibouti">Djibouti</option>
+                            <option value="Dominica">Dominica</option>
+                            <option value="Dominican Republic">Dominican Republic</option>
+                            <option value="East Timor">East Timor</option>
+                            <option value="Ecuador">Ecuador</option>
+                            <option value="Egypt">Egypt</option>
+                            <option value="El Salvador">El Salvador</option>
+                            <option value="Equatorial Guinea">Equatorial Guinea</option>
+                            <option value="Eritrea">Eritrea</option>
+                            <option value="Estonia">Estonia</option>
+                            <option value="Ethiopia">Ethiopia</option>
+                            <option value="Fiji">Fiji</option>
+                            <option value="Finland">Finland</option>
+                            <option value="France">France</option>
+                            <option value="Gabon">Gabon</option>
+                            <option value="Gambia">Gambia</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="Greece">Greece</option>
+                            <option value="Grenada">Grenada</option>
+                            <option value="Guatemala">Guatemala</option>
+                            <option value="Guinea">Guinea</option>
+                            <option value="Guinea-Bissau">Guinea-Bissau</option>
+                            <option value="Guyana">Guyana</option>
+                            <option value="Haiti">Haiti</option>
+                            <option value="Honduras">Honduras</option>
+                            <option value="Hungary">Hungary</option>
+                            <option value="Iceland">Iceland</option>
+                            <option value="Indonesia">Indonesia</option>
+                            <option value="Iran">Iran</option>
+                            <option value="Iraq">Iraq</option>
+                            <option value="Ireland {Republic}">Ireland {Republic}</option>
+                            <option value="Israel">Israel</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Ivory Coast">Ivory Coast</option>
+                            <option value="Jamaica">Jamaica</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Jordan">Jordan</option>
+                            <option value="Kazakhstan">Kazakhstan</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Kiribati">Kiribati</option>
+                            <option value="Korea North">Korea North</option>
+                            <option value="Korea South">Korea South</option>
+                            <option value="Kosovo">Kosovo</option>
+                            <option value="Kuwait">Kuwait</option>
+                            <option value="Kyrgyzstan">Kyrgyzstan</option>
+                            <option value="Laos">Laos</option>
+                            <option value="Latvia">Latvia</option>
+                            <option value="Lebanon">Lebanon</option>
+                            <option value="Lesotho">Lesotho</option>
+                            <option value="Liberia">Liberia</option>
+                            <option value="Libya">Libya</option>
+                            <option value="Liechtenstein">Liechtenstein</option>
+                            <option value="Lithuania">Lithuania</option>
+                            <option value="Luxembourg">Luxembourg</option>
+                            <option value="Macedonia">Macedonia</option>
+                            <option value="Madagascar">Madagascar</option>
+                            <option value="Malawi">Malawi</option>
+                            <option value="Malaysia">Malaysia</option>
+                            <option value="Maldives">Maldives</option>
+                            <option value="Mali">Mali</option>
+                            <option value="Malta">Malta</option>
+                            <option value="Marshall Islands">Marshall Islands</option>
+                            <option value="Mauritania">Mauritania</option>
+                            <option value="Mauritius">Mauritius</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="Micronesia">Micronesia</option>
+                            <option value="Moldova">Moldova</option>
+                            <option value="Monaco">Monaco</option>
+                            <option value="Mongolia">Mongolia</option>
+                            <option value="Montenegro">Montenegro</option>
+                            <option value="Morocco">Morocco</option>
+                            <option value="Mozambique">Mozambique</option>
+                            <option value="Myanmar, {Burma}">Myanmar, {Burma}</option>
+                            <option value="Namibia">Namibia</option>
+                            <option value="Nauru">Nauru</option>
+                            <option value="Nepal">Nepal</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="New Zealand">New Zealand</option>
+                            <option value="Nicaragua">Nicaragua</option>
+                            <option value="Niger">Niger</option>
+                            <option value="Nigeria">Nigeria</option>
+                            <option value="Norway">Norway</option>
+                            <option value="Oman">Oman</option>
+                            <option value="Pakistan">Pakistan</option>
+                            <option value="Palau">Palau</option>
+                            <option value="Panama">Panama</option>
+                            <option value="Papua New Guinea">Papua New Guinea</option>
+                            <option value="Paraguay">Paraguay</option>
+                            <option value="Peru">Peru</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="Poland">Poland</option>
+                            <option value="Portugal">Portugal</option>
+                            <option value="Qatar">Qatar</option>
+                            <option value="Romania">Romania</option>
+                            <option value="Russian Federation">Russian Federation</option>
+                            <option value="Rwanda">Rwanda</option>
+                            <option value="St Kitts &amp; Nevis">St Kitts &amp; Nevis</option>
+                            <option value="St Lucia">St Lucia</option>
+                            <option value="Saint Vincent &amp; the Grenadines">Saint Vincent &amp; the Grenadines</option>
+                            <option value="Samoa">Samoa</option>
+                            <option value="San Marino">San Marino</option>
+                            <option value="Sao Tome &amp; Principe">Sao Tome &amp; Principe</option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="Senegal">Senegal</option>
+                            <option value="Serbia">Serbia</option>
+                            <option value="Seychelles">Seychelles</option>
+                            <option value="Sierra Leone">Sierra Leone</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Slovakia">Slovakia</option>
+                            <option value="Slovenia">Slovenia</option>
+                            <option value="Solomon Islands">Solomon Islands</option>
+                            <option value="Somalia">Somalia</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="South Sudan">South Sudan</option>
+                            <option value="Spain">Spain</option>
+                            <option value="Sri Lanka">Sri Lanka</option>
+                            <option value="Sudan">Sudan</option>
+                            <option value="Suriname">Suriname</option>
+                            <option value="Swaziland">Swaziland</option>
+                            <option value="Sweden">Sweden</option>
+                            <option value="Switzerland">Switzerland</option>
+                            <option value="Syria">Syria</option>
+                            <option value="Taiwan">Taiwan</option>
+                            <option value="Tajikistan">Tajikistan</option>
+                            <option value="Tanzania">Tanzania</option>
+                            <option value="Thailand">Thailand</option>
+                            <option value="Togo">Togo</option>
+                            <option value="Tonga">Tonga</option>
+                            <option value="Trinidad &amp; Tobago">Trinidad &amp; Tobago</option>
+                            <option value="Tunisia">Tunisia</option>
+                            <option value="Turkey">Turkey</option>
+                            <option value="Turkmenistan">Turkmenistan</option>
+                            <option value="Tuvalu">Tuvalu</option>
+                            <option value="Uganda">Uganda</option>
+                            <option value="Ukraine">Ukraine</option>
+                            <option value="United Arab Emirates">United Arab Emirates</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="United States">United States</option>
+                            <option value="Uruguay">Uruguay</option>
+                            <option value="Uzbekistan">Uzbekistan</option>
+                            <option value="Vanuatu">Vanuatu</option>
+                            <option value="Vatican City">Vatican City</option>
+                            <option value="Venezuela">Venezuela</option>
+                            <option value="Vietnam">Vietnam</option>
+                            <option value="Yemen">Yemen</option>
+                            <option value="Zambia">Zambia</option>
+                            <option value="Zimbabwe">Zimbabwe</option>
+                    </select>
+
+                    </div>
+                    <div style="padding: 20px; padding-top: 0px;">
+                        <p>Schedule Demo For</p>
+                            <select class="form-control"  required="required" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <option value="Atal">Atal Tinkering lab</option>
+                                <option value=" AI"> AI and Robotics Lab</option>
+                                <option value="Coding">Coding & AI Curriculum</option>
+                                <option value="Hardware">AI and Robotics Hardware Kits</option>
+                        </select>
+                    </div>
+
+                    <div style="padding: 20px; padding-top: 0px;">
+                        <p>Your Message</p>
+                        <textarea style="border-radius: 10px; width: 100%;" id="w3review" name="w3review" rows="4" cols="50"></textarea>
+                    </div>
+                    <div class="text-center" style="padding: 20px; padding-top: 0px;">
+                    <input style="width: 100px; margin-left:40%;" class="form-control" type="submit" value="submit"/>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<!--section ended-->
+
+ <script>
+        const fadeElements = document.querySelectorAll('.fade-in');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, observerOptions);
+
+        fadeElements.forEach(element => {
+            observer.observe(element);
+        });
+        /*
+        var xyz = `<div class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <img src="https://via.placeholder.com/400" alt="Education Initiative" class="rounded-lg transform transition duration-500 hover:scale-105" loading="lazy">
+            </div>
+            <div class="w-full md:w-1/2 bg-gradient-to-r from-purple-500 to-indigo-500 p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-4">Initiative Title</h2>
+                <p class="mb-4">This initiative focuses on improving education through innovative practices.</p>
+                <a href="#" class="text-yellow-300 hover:underline">Learn More</a>
+            </div>
+        </div>`
+        var base = document.getElementById('templating')
+        for(var i=0; i<10; i++){
+            base.innerHTML += xyz
+
+        }
+            */
+    </script>
+</div>
+<!--section8 ended-->
+
+<!--section started
+<div>
+    <h1 class="text-center text-primary text-4xl py-10">Discover the schools that trust us for an exceptional educational experience!</h1>
+    <div class="scroll-container" style="overflow: hidden; width: 100%; position: relative;">
+        <div class="scroll-box" id="scrollBox" style="display: flex; transform: translateX(-14px); width: 2000px;">
+            <!-- Generate 100 elements
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s1.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s2.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s3.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s4.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s5.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s6.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s7.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s8.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s9.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s10.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s11.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s12.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s13.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s14.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s15.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s16.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s17.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s18.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s19.jpg' /> </div>
+            
+            <div class="element" style="background-color:rgba(0,0,0,0); padding:0; border:0px; width: 250px; height: 150px; margin: 10px;"><img style='width:100%;' src='static/s20.jpg' /> </div>
+            
+
+            <!-- Add more items as needed
+        </div>
+    </div>
+</div>
+<script>
+    const scrollBox = document.getElementById('scrollBox');
+
+// Duplicate the elements for seamless scrolling
+const originalElements = scrollBox.innerHTML;
+scrollBox.innerHTML += originalElements;
+
+// Start the scrolling effect
+let scrollSpeed = 50; // Adjust for speed
+let lastScrollPosition = 0;
+
+function scroll() {
+lastScrollPosition += 1; // Increase scroll position
+scrollBox.style.transform = `translateX(-${lastScrollPosition}px)`;
+
+// Reset position when the first set of elements is out of view
+if (lastScrollPosition >= scrollBox.scrollWidth / 2) {
+    lastScrollPosition = 0; // Reset for seamless loop
+}
+
+setTimeout(() => {
+    requestAnimationFrame(scroll);
+}, 10);
+}
+
+scroll(); // Start scrolling
+
+</script>
+<!--section ended-->
+</div>
+<div class="Products" style="display:none;">
+    <div>
+        <br><br><br><br>
+    <h1 class="text-center text-primary text-4xl py-10">AI & Robotics Kits - Quarky</h1>
+    <div id='templating' class="max-w-7xl mx-auto space-y-10 px-4 ">
+        <!-- Entries Loop -->
+        <!-- Repeat this block for each initiative -->
+        <div align="center" style="justify-content:center;" class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div style="width:300px;" class=" md:w-1/2 mb-4 md:mb-0">
+                <img  src="static/Quarky-Ecosystem.jpg" alt="Education Initiative" class="rounded-lg" loading="lazy">
+            </div>
+            <div onmouseover="this.style.borderRadius='50px';" onmouseout="this.style.borderRadius='22% 22% 67% 64% / 30% 35% 57% 60%';" class="w-full md:w-1/2  p-6 " style="transition:border-radius 200ms linear; border-radius:22% 22% 67% 64% / 30% 35% 57% 60% ;  background-color:rgba(0,100,0,0.1); box-shadow:inset 2px 2px 5px rgba(0, 0, 200, 0.1),3px 4px 6px rgba(0, 150, 0, 0.1),inset -3px -3px 4px rgba(255, 255, 255, 0.8);">
+                <p class="mb-4 text-black">Quarky Kits are AI and robotics learning kits designed for kids to explore coding, artificial intelligence, and robotics in a fun, hands-on way. Built around the Quarky microcontroller, these kits simplify complex STEM concepts, allowing students to create projects like autonomous robots, games, and AI-based devices. They are beginner-friendly and encourage creativity, problem-solving, and technological skills in children aged 7 and above.</p>
+
+            </div>
+            </div>
+        </div>
+<div class="w-4/5 mx-auto my-0 px-4 box-shadow-inner">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+        
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/Quarky1.png" />
+            <h3 class="text-lg font-semibold">Quarky Kits</h3>
+            <h1 class="text-xl font-bold mb-2">Quarky Innovator Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹8999</span> ₹6999
+  </p>
+
+
+            <div class="mt-3">
+                <button data-id="1" data-name="quarky kit 1" data-price="₹6999" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+
+                <button data-id="1" data-name="quarky kit 1" data-price="₹6999" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/Quarky2.png" />
+            <h3 class="text-lg font-semibold">Quarky Kits</h3>
+            <h1 class="text-xl font-bold mb-2">Quarky Ultimate Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹13999</span> ₹11199
+  </p>
+
+
+            <div class="mt-3">
+                <button data-id="2" data-name="quarky kit 2" data-price="₹11199" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+
+                <button data-id="2" data-name="quarky kit 2" data-price="₹11199" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/Quarky3.png" />
+            <h3 class="text-lg font-semibold">Quarky Kits</h3>
+            <h1 class="text-xl font-bold mb-2">Quarky Explorer Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹13999</span> ₹11199
+  </p>
+
+
+            <div class="mt-3">
+                <button data-id="3" data-name="quarky kit 3" data-price="₹11199" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+
+                <button data-id="3" data-name="quarky kit 3" data-price="₹11199" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+    </div>
+    <div>
+        <h1 class="text-center text-primary text-4xl py-10">STEM Learning Kits - evive</h1>
+        <div id='templating' class="max-w-7xl mx-auto space-y-10 px-4">
+            <!-- Entries Loop -->
+            <!-- Repeat this block for each initiative -->
+            <div align="center" style="justify-content:center;" class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div style="width:400px;" class=" md:w-1/2 mb-4 md:mb-0">
+                <img  src="static/evive-Starter.jpg" alt="Education Initiative" class="rounded-lg" loading="lazy">
+            </div>
+                <div class="w-full md:w-1/2 p-6 " onmouseover="this.style.borderRadius='50px 150px 12px';" onmouseout="this.style.borderRadius='22% 22% 67% 64% / 30% 35% 57% 60%';"  style=" transition:border-radius 500ms linear; border-radius:22% 22% 67% 64% / 30% 35% 57% 60% ;  background-color:rgba(0,100,0,0.1); box-shadow:inset 2px 2px 5px rgba(0, 0, 200, 0.1),3px 4px 6px rgba(0, 150, 0, 0.1),inset -3px -3px 4px rgba(255, 255, 255, 0.8);">
+                    <p class="mb-4 text-black" style='margin:50px; margin-top:20px'>Evive Kit is an all-in-one STEM learning and prototyping platform designed for students, hobbyists, and educators. It combines a versatile hardware setup with features like a built-in Arduino, a plug-and-play interface, and tools for robotics, electronics, and programming. Ideal for creating diverse projects, from simple circuits to advanced robots, the Evive Kit helps learners explore coding, electronics, and engineering in a hands-on and engaging way.</p>
+
+                </div>
+                </div>
+            </div>
+
+<div class="w-4/5 mx-auto my-0 px-4 box-shadow-inner">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <div class="flex flex-col  p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/evive9.png" />
+            <h3 class="text-lg font-semibold">evive Kits</h3>
+            <h1 class="text-xl font-bold mb-2">DIY Prototyping Tool</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹16999</span> ₹12999
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="9" data-name="Evive kit 9" data-price="₹12999" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+
+                <button data-id="9" data-name="quarky kit 9" data-price="₹12999" class="bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col  p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/evive10.png" />
+            <h3 class="text-lg font-semibold">evive Kits</h3>
+            <h1 class="text-xl font-bold mb-2">evive Starter Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹24999</span> ₹17699
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="10" data-name="Evive kit 10" data-price="₹17699" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+
+                <button data-id="10" data-name="quarky kit 10" data-price="₹17699" class="bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col  p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/evive11.png" />
+            <h3 class="text-lg font-semibold">evive Kits</h3>
+            <h1 class="text-xl font-bold mb-2">evive IoT Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹17699</span> ₹7199
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="11" data-name="Evive kit 11" data-price="₹7199" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+
+                <button data-id="11" data-name="quarky kit 11" data-price="₹7199" class="bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+        </div>
+          <div>
+        <h1 class="text-center text-primary text-4xl py-10">WitBlox Kits</h1>
+        <div id='templating' class="max-w-7xl mx-auto space-y-10 px-4">
+            <!-- Entries Loop -->
+            <!-- Repeat this block for each initiative -->
+            <div align="center" style="justify-content:center;" class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div style="width:400px;" class=" md:w-1/2 mb-4 md:mb-0">
+                <img  src="static/electrical.jpg" alt="Education Initiative" class="rounded-lg" loading="lazy">
+            </div>
+                <div class="w-full md:w-1/2 p-6 " onmouseover="this.style.borderRadius='50px 150px 12px';" onmouseout="this.style.borderRadius='22% 22% 67% 64% / 30% 35% 57% 60%';"  style=" transition:border-radius 500ms linear; border-radius:22% 22% 67% 64% / 30% 35% 57% 60% ;  background-color:rgba(0,100,0,0.1); box-shadow:inset 2px 2px 5px rgba(0, 0, 200, 0.1),3px 4px 6px rgba(0, 150, 0, 0.1),inset -3px -3px 4px rgba(255, 255, 255, 0.8);">
+                    <p class="mb-4 text-black" style='margin:50px; margin-top:20px'>WitBlox Kits are DIY robotics and electronics kits designed to help children and beginners learn STEM concepts through hands-on building. They feature modular "blox" (electronic blocks) that easily connect without soldering, making it simple to create projects like robots, vehicles, and smart devices. These kits are ideal for fostering creativity, problem-solving, and innovation in kids aged 8 and above, aligning with the principles of practical learning and early exposure to technology.</p>
+
+                </div>
+                </div>
+            </div>
+
+<div class="w-4/5 mx-auto my-0 px-4 box-shadow-inner">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <div class="flex flex-col  p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/wit1.avif" />
+            <h3 class="text-lg font-semibold">WitBlox Kits</h3>
+            <h1 class="text-xl font-bold mb-2">WitBlox Robotics Kit AI Edition</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹5000.00</span> ₹3200
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="12" data-name="WitBlox kit 12" data-price="₹3200" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+
+                <button data-id="12" data-name="quarky kit 12" data-price="₹3200" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col  p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/wit2.avif" />
+            <h3 class="text-lg font-semibold">WitBlox Kits</h3>
+            <h1 class="text-xl font-bold mb-2">WitBlox Robotics Kit WiFi (IoT) Edition</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹4999</span> ₹3200
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="13" data-name="WitBlox kit 13" data-price="₹3200" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+
+                <button data-id="13" data-name="quarky kit 13" data-price="₹3200" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col  p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/wit3.avif" />
+            <h3 class="text-lg font-semibold">WitBlox Kits</h3>
+            <h1 class="text-xl font-bold mb-2">WitBlox DIY Robotics kit for 101+ projects</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹3590</span> ₹2500
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="14" data-name="WitBlox kit 14" data-price="₹2500" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+
+                <button data-id="14" data-name="quarky kit 14" data-price="₹2500" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+        </div>
+<!---------------------quarky addons------------------------->
+<h1 class="text-center text-primary text-4xl py-10">Quarky - Addons</h1>
+    <div id='templating' class="max-w-7xl mx-auto space-y-10 px-4 ">
+        <!-- Entries Loop -->
+        <!-- Repeat this block for each initiative -->
+        <div align="center" style="justify-content:center;" class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div style="width:300px;" class=" md:w-1/2 mb-4 md:mb-0">
+                <img  src="static/Quarky-Ecosystem.jpg" alt="Education Initiative" class="rounded-lg" loading="lazy">
+            </div>
+            <div onmouseover="this.style.borderRadius='50px';" onmouseout="this.style.borderRadius='22% 22% 67% 64% / 30% 35% 57% 60%';" class="w-full md:w-1/2  p-6 " style="transition:border-radius 200ms linear; border-radius:22% 22% 67% 64% / 30% 35% 57% 60% ;  background-color:rgba(0,100,0,0.1); box-shadow:inset 2px 2px 5px rgba(0, 0, 200, 0.1),3px 4px 6px rgba(0, 150, 0, 0.1),inset -3px -3px 4px rgba(255, 255, 255, 0.8);">
+                <p class="mb-4 text-black">Quarky Kits are AI and robotics learning kits designed for kids to explore coding, artificial intelligence, and robotics in a fun, hands-on way. Built around the Quarky microcontroller, these kits simplify complex STEM concepts, allowing students to create projects like autonomous robots, games, and AI-based devices. They are beginner-friendly and encourage creativity, problem-solving, and technological skills in children aged 7 and above.</p>
+            </div>
+            </div>
+        </div>
+<div class="w-4/5 mx-auto my-0 px-4 box-shadow-inner">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+        
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/Quarky3.png" />
+            <h3 class="text-lg font-semibold">Quarky Addon Kits</h3>
+            <h1 class="text-xl font-bold mb-2">Quarky Mars Rover Addon Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹17499</span> ₹13499
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="15" data-name="quarky kit 15" data-price="₹13499" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+                <button data-id="15" data-name="quarky kit 15" data-price="₹13499" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/Quarky4.png" />
+            <h3 class="text-lg font-semibold">Quarky Addon Kits</h3>
+            <h1 class="text-xl font-bold mb-2">Quarky Humanoid Addon Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹14999</span> ₹11199
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="16" data-name="quarky kit 16" data-price="₹11199" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+                <button data-id="16" data-name="quarky kit 16" data-price="₹11199" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/Quarky5.png" />
+            <h3 class="text-lg font-semibold">Quarky Addon Kits</h3>
+            <h1 class="text-xl font-bold mb-2">Quarky Quarduped Addon Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹17499</span> ₹13499
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="17" data-name="quarky kit 17" data-price="₹13499" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+                <button data-id="17" data-name="quarky kit 17" data-price="₹13499" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/Quarky6.png" />
+            <h3 class="text-lg font-semibold">Quarky Addon Kits</h3>
+            <h1 class="text-xl font-bold mb-2">Quarky IoT House Addon Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹14999</span> ₹11199
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="18" data-name="quarky kit 18" data-price="₹11199" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+                <button data-id="18" data-name="quarky kit 18" data-price="₹11199" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/Quarky7.png" />
+            <h3 class="text-lg font-semibold">Quarky Addon Kits</h3>
+            <h1 class="text-xl font-bold mb-2">Wheel Robot Addon Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹17499</span> ₹13499
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="19" data-name="quarky kit 19" data-price="₹13499" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+                <button data-id="19" data-name="quarky kit 19" data-price="₹13499" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+            <img class="rounded-lg w-full h-auto mb-4" src="static/Quarky8.png" />
+            <h3 class="text-lg font-semibold">Quarky Addon Kits</h3>
+            <h1 class="text-xl font-bold mb-2">Quarky Robotic Arm Addon Kit</h1>
+
+            <!-- Adjusted text size -->
+            <p class="inline text-sm">
+  <span class="line-through">₹14999</span> ₹11199
+  </p>
+
+
+            <div class="mt-4">
+                <button data-id="20" data-name="quarky kit 20" data-price="₹11199" class="add-to-cart bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Add to Cart
+                </button>
+                <button data-id="20" data-name="quarky kit 20" data-price="₹11199" class=" bg-green-600 text-white py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-inner">
+                    Read More
+                </button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<!------------------------------------------------------------------>
+
+        <div>
+        <h1 class="text-center text-primary text-4xl py-10">PictoBlox Software</h1>
+        <div id='templating' class="max-w-7xl mx-auto space-y-10 px-4">
+            <!-- Entries Loop -->
+            <!-- Repeat this block for each initiative -->
+            <div align="center" style="justify-content:center;" class="flex flex-col md:flex-row items-center space-x-0 md:space-x-8 fade-in">
+            <div style="width:300px;" class=" md:w-1/2 mb-4 md:mb-0">
+                <img  src="static/ailab1.jpg" alt="Education Initiative" class="rounded-lg" loading="lazy">
+            </div>
+                <div class="w-full md:w-1/2  p-6 " onmouseover="this.style.borderRadius='50px 100px';" onmouseout="this.style.borderRadius='22% 22% 67% 64% / 30% 35% 57% 60%';"  style="transition:border-radius 500ms linear; border-radius:22% 22% 67% 64% / 30% 35% 57% 60% ;  background-color:rgba(0,100,0,0.1); box-shadow:inset 2px 2px 5px rgba(0, 0, 200, 0.1),3px 4px 6px rgba(0, 150, 0, 0.1),inset -3px -3px 4px rgba(255, 255, 255, 0.8);">
+                    <p class="mb-4 text-black">Discover the ultimate creator platform for students and teachers with PictoBlox! Easily create projects in AI, ML, AR, VR, IoT, and hardware with Arduino, LEGO, and Quarky while enjoying the ease, fun, and engagement that PictoBlox’s amazing features offer. From beginner coders to experienced developers, discover why PictoBlox is the best choice for all your coding needs! </p>
+                    <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105">
+                        Explore
+                    </a>
+                </div>
+                </div>
+            </div>
+
+
+        <div style="justify-content:center; margin: 10px; margin-top: 0; margin-bottom: 0;" class="row justify-content-center">
+            
+            <div align='center' class="listhover" style="justify-content:center; border-radius: 10px; width: 200px; margin: 20px;">
+                <img style="border-radius: 7px;" src="static/c1.jpg" /><br>
+                <h3><b>Block Coding</b></h3><br>
+                <h1>Learn to code with colorful puzzles like drag and drop block based coding for Kids.</h1>
+
+            </div>
+            
+            <div align='center' class="listhover" style="justify-content:center; border-radius: 10px; width: 200px; margin: 20px;">
+                <img style="border-radius: 7px;" src="static/c2.jpg" /><br>
+                <h3><b>Python Coding</b></h3><br>
+                <h1>Create robust programs with simplified interactive codes in Python programming for teens.</h1>
+
+            </div>
+            
+            <div align='center' class="listhover" style="justify-content:center; border-radius: 10px; width: 200px; margin: 20px;">
+                <img style="border-radius: 7px;" src="static/c3.jpg" /><br>
+                <h3><b>Machine Learning</b></h3><br>
+                <h1>Analyze complex data, train and import models to coding environment with ease.</h1>
+
+            </div>
+            
+            <div align='center' class="listhover" style="justify-content:center; border-radius: 10px; width: 200px; margin: 20px;">
+                <img style="border-radius: 7px;" src="static/c4.jpg" /><br>
+                <h3><b>3D, AR, VR Environment</b></h3><br>
+                <h1>Create 3D Environments and explore new dimensions of creativity with AR &amp; VR</h1>
+
+            </div>
+            
+
+        </div>
+        </div>
+
+
+</div>
+<div class='school'>
+    <iframe src='/school' id='school' style='overflow:hidden; width:100%; border:none;'></iframe>
+    <script>
+        const iframe = document.getElementById('school');
+
+        iframe.addEventListener('load', () => {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframe.style.height = iframeDoc.body.scrollHeight+100 + 'px';
+            document.getElementsByClassName('school')[0].style.display = 'none'
+        });
+    </script>
+</div>
+
+
+<div class='education'>
+
+    <iframe src='/education' id='education' style='overflow:hidden; margin-top:50px; width:100%; border:none;'></iframe>
+    <script>
+        const iframx = document.getElementById('education');
+
+        iframx.addEventListener('load', () => {
+            const iframxDoc = iframx.contentDocument || iframx.contentWindow.document;
+            iframx.style.height = iframxDoc.body.scrollHeight+100 + 'px';
+            document.getElementsByClassName('education')[0].style.display = 'none'
+        });
+    </script>
+
+    <!--
+    <script>
+    async function loadComponent(filePath, targetSelector) {
+        const response = await fetch(filePath);
+        const content = await response.text();
+        document.querySelector(targetSelector).innerHTML += content;
+}
+
+    loadComponent('education', '.education');
+
+    </script>
+    -->
+</div>
+
+
+<div class='projects'>
+    <iframe src='/school1' id='projects' style='overflow:hidden; margin-top:50px; width:100%; border:none;'></iframe>
+    <script>
+        const iframxe = document.getElementById('projects');
+
+        iframx.addEventListener('load', () => {
+            const iframxeDoc = iframxe.contentDocument || iframxe.contentWindow.document;
+            iframxe.style.height = iframxeDoc.body.scrollHeight+100 + 'px';
+            document.getElementsByClassName('projects')[0].style.display = 'none'
+        });
+    </script>
+</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    var xl = document.getElementsByClassName('Home')[0];
+    var vl = document.getElementsByClassName('Products')[0];
+    var zl = document.getElementsByClassName('school')[0];
+    var cl = document.getElementsByClassName('education')[0];
+    var pjl = document.getElementsByClassName('projects')[0];
+    var listingX = [xl,vl,zl,cl,pjl]
+    var current = 0;
+    var home = (l)=>{
+         window.scrollTo({ top: 0, behavior: "smooth" });
+        listingX[current].style.animation = 'rotateit 0.5s 1';
+        setTimeout(()=>{
+        listingX[current].style.display = 'none'
+        listingX[current].style.animation = '';
+        listingX[l].style.animation = 'rotateitv 1s 1';
+        // document.body.style.overflow='hidden';
+        current = 0;
+        listingX[l].style.display = 'block'
+        },400)
+    }
+    var products = (l)=>{
+         window.scrollTo({ top: 0, behavior: "smooth" });
+        listingX[current].style.animation = 'rotateit 0.5s 1';
+        setTimeout(()=>{
+        listingX[current].style.display = 'none'
+        listingX[current].style.animation = '';
+        listingX[l].style.animation = 'rotateitv 1s 1';
+        // document.body.style.overflow='hidden';
+        current = 1;
+        listingX[l].style.display = 'block'
+        },400)
+    }
+    var school = (l)=>{
+         window.scrollTo({ top: 0, behavior: "smooth" });
+        listingX[current].style.animation = 'rotateit 0.5s 1';
+        setTimeout(()=>{
+        listingX[current].style.display = 'none'
+        listingX[current].style.animation = '';
+        listingX[l].style.animation = 'rotateitv 1s 1';
+        // document.body.style.overflow='hidden';
+        current = 2;
+        listingX[l].style.display = 'block'
+        },400)
+    }
+    var education = (l)=>{
+         window.scrollTo({ top: 0, behavior: "smooth" });
+        listingX[current].style.animation = 'rotateit 0.5s 1';
+        setTimeout(()=>{
+        listingX[current].style.display = 'none'
+        listingX[current].style.animation = '';
+        listingX[l].style.animation = 'rotateitv 1s 1';
+        // document.body.style.overflow='hidden';
+        current = 3;
+        listingX[l].style.display = 'block'
+        },400)
+    }
+    var projects = (l)=>{
+         window.scrollTo({ top: 0, behavior: "smooth" });
+        listingX[current].style.animation = 'rotateit 0.5s 1';
+        setTimeout(()=>{
+        listingX[current].style.display = 'none'
+        listingX[current].style.animation = '';
+        listingX[l].style.animation = 'rotateitv 1s 1';
+        // document.body.style.overflow='hidden';
+        current = 4;
+        listingX[l].style.display = 'block'
+        },400)
+    }
+    var about = (l)=>{
+         window.scrollTo({ top: 0, behavior: "smooth" });
+        listingX[current].style.animation = 'rotateit 0.5s 1';
+        setTimeout(()=>{
+        listingX[current].style.display = 'none'
+        listingX[current].style.animation = '';
+        listingX[l].style.animation = 'rotateitv 1s 1';
+        // document.body.style.overflow='hidden';
+        current = 5;
+        listingX[l].style.display = 'block'
+        },400)
+    }
+</script>
+<!-----------------------------------main page overlay------------------------------------->
+<div id="overlayfmx" class="overlayfm" style="z-index:1000;">
+    <div class="iframe-containerfm">
+      <button class="close-btnfm" onclick="hideOverlayfmx()" ontouchstart="hideOverlayfmx">×</button>
+<div id='intX' class='internalX'>
+
+</div>
+</div>
+</div>
+
+ <script>
+
+    async function loadComponent(filePath, targetSelector) {
+        const response = await fetch(filePath);
+        const content = await response.text();
+        specialContent = content
+        document.querySelector(targetSelector).innerHTML = content;
+}
+
+    loadComponent('maincontent', '#intX');
+  function showOverlayfmx() {
+      const overlayfmx = document.getElementById('overlayfmx');
+      overlayfmx.classList.add('activefm');
+    }
+
+    function hideOverlayfmx() {
+      const overlayfmx = document.getElementById('overlayfmx');
+      document.querySelector('#intX').innerHTML = '';
+      overlayfmx.classList.remove('activefm');
+    }
+function mainpageclicked(x){
+    document.querySelector('#intX').innerHTML = specialContent;
+    updateMainContent(x)
+    showOverlayfmx()
+}
+const modelling = {
+    title: "3D MODELLING",
+    youtubeVideoId: "7tjFxACJzZ0",
+    description: "3D modelling is the process of creating three-dimensional representations of objects or scenes using specialized software. It is widely used in industries such as animation, gaming, architecture, and product design to visualize and bring ideas to life in a virtual space.",
+    skillsGained: [
+        "Proficiency in 3D modelling techniques such as sculpting, texturing, and rendering.",
+        "Ability to design models for various applications, from animation and gaming to product visualization"
+    ],
+    courseOutcomes: [
+        "Students will be able to create detailed 3D models of objects and environments using industry-standard software like Blender, Autodesk Maya, or ZBrush."
+    ]
+};
+const ArVr = {
+    title: "AR (Augmented Reality) / VR (Virtual Reality)",
+    youtubeVideoId: "eANjGomWZp4",
+    description: `The "AR/VR" course introduces students to the immersive world of Augmented Reality (AR) and Virtual Reality (VR), exploring their applications in gaming, education, healthcare, and beyond. Students will learn to design and develop interactive, real-time AR and VR experiences using cutting-edge technologies and tools.`,
+    skillsGained: [
+        "Proficiency in AR/VR development tools and platforms, such as Unity and Unreal Engine.",
+        "Expertise in 3D modelling, spatial interaction, and user interface design for creating engaging AR and VR experiences."
+    ],
+    courseOutcomes: [
+        "Students will develop the ability to design and create immersive AR and VR applications, enhancing user experience across various industries.",
+        "Learners will gain hands-on experience in implementing interactive environments, incorporating real-time data, and optimizing performance for AR and VR platforms."
+    ]
+};
+const Game = {
+    title: "GAME DEVELOPMENT",
+    youtubeVideoId: "eANjGomWZp4",
+    description: "Game development is the process of designing, creating, and programming interactive video games for various platforms. It combines elements of storytelling, programming, graphic design, and sound to create immersive and engaging player experiences.",
+    skillsGained: [
+        "Expertise in 2D/3D asset integration, sound design, and implementing AI systems for dynamic gameplay.",
+        "Knowledge of game optimization techniques to ensure smooth performance across different devices."
+    ],
+    courseOutcomes: [
+        "Students will be able to design, develop, and deploy interactive video games using popular game engines like Unity or Unreal Engine."
+    ]
+};
+const IOT = {
+    title: "IoT & ML",
+    youtubeVideoId: "eANjGomWZp4",
+    description: "IoT (Internet of Things) and ML (Machine Learning) combine to create intelligent systems that gather data from connected devices and use algorithms to make predictions or decisions. This integration empowers automation, real-time analytics, and enhanced user experiences across various industries.",
+    skillsGained: [
+        "Proficiency in IoT system design, data collection, and sensor integration.",
+        "Expertise in implementing machine learning models for data analysis, prediction, and decision-making within IoT environments."
+    ],
+    courseOutcomes: [
+        "Students will gain the ability to design, develop, and deploy IoT systems integrated with Machine Learning algorithms to solve real-world challenges.",
+        "Learners will acquire the skills to analyze IoT data, apply predictive models, and optimize IoT-based solutions for enhanced automation and decision-making."
+    ]
+};
+const ngss = {
+    title: "NGSS (Next Generation Science Standards) Learning",
+    youtubeVideoId: "GHTIhX527jQ",
+    description: "The Next Generation Science Standards (NGSS) provide a comprehensive framework for science education, focusing on critical thinking, problem-solving, and hands-on learning. Designed to prepare students for real-world challenges, NGSS emphasizes cross-disciplinary connections and the integration of scientific practices.",
+    skillsGained: [
+        "Ability to create engaging, hands-on learning experiences based on real-world problems.",
+        "Strong understanding of how to connect scientific concepts across various disciplines, enhancing critical thinking."
+    ],
+    courseOutcomes: [
+        "Students will be able to apply NGSS principles to design and implement interdisciplinary science lessons that integrate physical, life, and earth sciences.",
+        "Students will develop the ability to evaluate and assess student progress in science using inquiry-based methods aligned with NGSS performance expectations."
+    ]
+};
+const MIT = {
+    title: "MIT (Massachusetts Institute of Technology, Cambridge, USA) Visual Programming",
+    youtubeVideoId: "sb-wF35TuvQ",
+    description: "MIT's Visual Programming initiative explores innovative methods of software development by using visual interfaces instead of traditional text-based coding. This approach simplifies complex programming tasks, making technology more accessible and intuitive. By bridging the gap between logic and creativity, MIT is shaping the future of coding through visual tools and interactive design.",
+    skillsGained: [
+        "Ability to design and implement software applications using visual programming languages and environments.",
+        "Ability to build and debug complex systems with intuitive graphical interfaces, focusing on enhancing user experience and simplifying the debugging process."
+    ],
+    courseOutcomes: [
+        "Proficiency in using visual programming tools like Scratch, Blockly, or Node-RED for building applications.",
+        "Ability to map logical and computational concepts to visual representations, enhancing problem-solving and creative thinking."
+    ]
+};
+const robotics = {
+    title: "ROBOTICS & AI",
+    youtubeVideoId: "eANjGomWZp4",
+    description: "The 'Robotics & AI' course explores the integration of artificial intelligence with robotics to create intelligent, autonomous systems. Students will learn how to design, program, and optimize robots while leveraging AI techniques for decision-making, perception, and action in dynamic environments.",
+    skillsGained: [
+        "Proficiency in robot design, control systems, and AI integration for autonomous operations.",
+        "Expertise in machine learning, computer vision, and reinforcement learning techniques to enhance robotic capabilities."
+    ],
+    courseOutcomes: [
+        "Students will develop the ability to design, program, and deploy autonomous robots that integrate AI for real-time decision-making and problem-solving.",
+        "Learners will gain hands-on experience in applying AI algorithms to enhance robotic perception, navigation, and interaction with the environment."
+    ]
+};
+const webDev = {
+    title: "WEB DEVELOPMENT",
+    youtubeVideoId: "5YDVJaItmaY",
+    description: "Web development is the process of creating and maintaining websites, combining elements of design, coding, and content management. It encompasses both front-end and back-end development to build interactive, user-friendly, and functional online experiences.",
+    skillsGained: [
+        "Proficiency in front-end and back-end development, creating responsive and interactive websites.",
+        "Ability to implement dynamic web applications, integrating APIs and databases for seamless user experiences."
+    ],
+    courseOutcomes: [
+        "Students will be able to design and develop fully functional websites using modern web technologies like HTML, CSS, JavaScript, and frameworks such as React or Angular."
+    ]
+};
+
+mainContentArray = [MIT,ngss,webDev,modelling,Game,IOT,robotics,ArVr]
+function updateMainContent(x){
+   // Update the title
+   const courseDetails = mainContentArray[x]
+    document.querySelector('.headerctn h1').innerText = courseDetails.title;
+
+    // Update the video
+    const iframe = document.querySelector('.video-sectionctn iframe');
+    iframe.src = `https://www.youtube.com/embed/${courseDetails.youtubeVideoId}`;
+
+    // Update the description
+    document.querySelector('.details-sectionctn p').innerText = courseDetails.description;
+
+    // Update skills gained
+    const skillsList = document.querySelector('.skillsctn ul');
+    skillsList.innerHTML = ''; // Clear any existing content
+    courseDetails.skillsGained.forEach(skill => {
+        const li = document.createElement('li');
+        li.innerText = skill;
+        skillsList.appendChild(li);
+    });
+
+    // Update course outcomes
+    const outcomesList = document.querySelector('.outcomesctn ul');
+    outcomesList.innerHTML = ''; // Clear any existing content
+    courseDetails.courseOutcomes.forEach(outcome => {
+        const li = document.createElement('li');
+        li.innerText = outcome;
+        outcomesList.appendChild(li);
+    });
+}
+    </script>
+
+
+<!------------------------------------------------------------------------------------------>
+<div id="overlay" class="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" onclick="closeOverlay()">X</button>
+            <!-- Embed YouTube video -->
+            <div class="iframe-container">
+                <iframe id="youtubePlayer"
+                        src="https://www.youtube.com/embed/fH5iLx_jCUk?enablejsapi=1&controls=0&modestbranding=1&rel=0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let player;
+
+const vid = ['_q2RgQMc96k','kGVHClTJCNA','itx0RYOnoBs','WPfHcSgA-gk','VjjKYeTsSEw','6mBO2vqLv38','yCXm5cgG0UA','vz0UUVDt2ps','fH5iLx_jCUk']
+        // Load the YouTube IFrame API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Initialize the YouTube player
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtubePlayer', {
+                events: {
+                    onReady: () => console.log("YouTube Player Ready")
+                }
+            });
+        }
+
+        // Open the overlay
+        function openOverlay(x=8) {
+            document.getElementById("overlay").style.display = "flex";
+            loadVideo(x)
+        }
+function loadVideo(videoId) {
+        if (player) {
+            player.loadVideoById(vid[videoId]);// Load the specified video
+            //openOverLay()
+            playVideo(); // Automatically play the new video
+        }
+    }
+        // Close the overlay
+        function closeOverlay() {
+            document.getElementById("overlay").style.display = "none";
+            pauseVideo(); // Pause the video when the overlay is closed
+        }
+
+        // Play the video
+        function playVideo() {
+            if (player) player.playVideo();
+        }
+
+        // Pause the video
+        function pauseVideo() {
+            if (player) player.pauseVideo();
+        }
+    </script>
+    <!--you tube overlay ended-->
+<div id="overlayfm" class="overlayfm">
+    <div class="iframe-containerfm">
+      <button class="close-btnfm" onclick="hideOverlayfm()" ontouchstart="hideOverlayfm">×</button>
+<div class='internalX'>
+    <h1 class="text-center text-primary text-4xl py-10">Book Free Demo Today</h1>
+    <div id='temfm' class="max-w-7xl mx-auto space-y-10 px-4">
+
+        <div class="flex flex-col md:flex-row space-x-0 md:space-x-8 fade-in">
+            <div class="w-full md:w-1/2  p-6 ">
+                <h2 class="text-2xl text-primary font-bold mb-4">Experience the power of AI and Robotics with us!</h2>
+                <p class="mb-4 text-black">
+Discover the power of the Torrlab ecosystem – a revolutionary Coding, AI, and Robotics solution for schools! Our educational specialists are ready to help you harness the potential of this cutting-edge technology. In just one hour, we can align the right resources with your specific educational needs and unlock the endless possibilities Torrlab offers. Contact us for a free, customized demonstration tailored to your school’s schedule. Don’t wait—let Torrlab transform the way you teach and learn!
+                    </p>
+            </div>
+            <div class="framezx w-full md:w-1/2 mb-4 md:mb-0">
+                <div style="padding: 10px; height: 50px; border-top-left-radius: 20px; border-top-right-radius: 20px; margin-top: 20px;" class="w-full bg-blue-600">
+                    <h2 class="text-center text-white text-2xl ">Request Your Free Demo Today</h2>
+                </div>
+                <div style="color: #1f2937; text-decoration: dotted;" class="w-full bg-blue-200">
+                    <div class="container">
+                        <div class="row">
+                          <div class="col border-blue-600">
+                            <div>
+                                <p>Enter Full Name</p>
+                                <input placeholder="Enter Full Name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                            </div>
+                          </div>
+                          <div class="col border-blue-600">
+                            <div>
+                                <p>Enter Email</p>
+                                <input type="email" placeholder="Enter Email Address" type="text" class="form-control w-full" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    <div style="padding: 20px;">
+                        <p>Enter Mobile Number</p>
+                        <input placeholder="please enter Mobile Number With country Code (+1987726524)" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                    </div>
+                    <div style="padding: 20px; padding-top: 0px;">
+                        <p>Designation</p>
+                            <select class="form-control" required="required" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <option value="Educator">Educator</option>
+                                <option value="Management">Management</option>
+                                <option value="Principal">Principal</option>
+                                <option value="Parent">Parent</option>
+                                <option value="Trainer">Trainer</option>
+                                <option value="Student">Student</option>
+                                <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div style="padding: 20px; padding-top: 0px;">
+                        <p>School/Organisation</p>
+                        <input placeholder="Organisation Name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                    </div>
+
+                    <div style="padding: 20px; padding-top: 0px;">
+                        <p>School/Organisation</p>
+                        <select class="form-control" required="required" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                            <option value="India">India</option>
+                            <option value="Afghanistan">Afghanistan</option>
+                            <option value="Albania">Albania</option>
+                            <option value="Algeria">Algeria</option>
+                            <option value="Andorra">Andorra</option>
+                            <option value="Angola">Angola</option>
+                            <option value="Antigua &amp; Deps">Antigua &amp; Deps</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Armenia">Armenia</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Austria">Austria</option>
+                            <option value="Azerbaijan">Azerbaijan</option>
+                            <option value="Bahamas">Bahamas</option>
+                            <option value="Bahrain">Bahrain</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="Barbados">Barbados</option>
+                            <option value="Belarus">Belarus</option>
+                            <option value="Belgium">Belgium</option>
+                            <option value="Belize">Belize</option>
+                            <option value="Benin">Benin</option>
+                            <option value="Bhutan">Bhutan</option>
+                            <option value="Bolivia">Bolivia</option>
+                            <option value="Bosnia Herzegovina">Bosnia Herzegovina</option>
+                            <option value="Botswana">Botswana</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="Brunei">Brunei</option>
+                            <option value="Bulgaria">Bulgaria</option>
+                            <option value="Burkina">Burkina</option>
+                            <option value="Burundi">Burundi</option>
+                            <option value="Cambodia">Cambodia</option>
+                            <option value="Cameroon">Cameroon</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Cape Verde">Cape Verde</option>
+                            <option value="Central African Rep">Central African Rep</option>
+                            <option value="Chad">Chad</option>
+                            <option value="Chile">Chile</option>
+                            <option value="China">China</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Comoros">Comoros</option>
+                            <option value="Congo">Congo</option>
+                            <option value="Congo {Democratic Rep}">Congo {Democratic Rep}</option>
+                            <option value="Costa Rica">Costa Rica</option>
+                            <option value="Croatia">Croatia</option>
+                            <option value="Cuba">Cuba</option>
+                            <option value="Cyprus">Cyprus</option>
+                            <option value="Czech Republic">Czech Republic</option>
+                            <option value="Denmark">Denmark</option>
+                            <option value="Djibouti">Djibouti</option>
+                            <option value="Dominica">Dominica</option>
+                            <option value="Dominican Republic">Dominican Republic</option>
+                            <option value="East Timor">East Timor</option>
+                            <option value="Ecuador">Ecuador</option>
+                            <option value="Egypt">Egypt</option>
+                            <option value="El Salvador">El Salvador</option>
+                            <option value="Equatorial Guinea">Equatorial Guinea</option>
+                            <option value="Eritrea">Eritrea</option>
+                            <option value="Estonia">Estonia</option>
+                            <option value="Ethiopia">Ethiopia</option>
+                            <option value="Fiji">Fiji</option>
+                            <option value="Finland">Finland</option>
+                            <option value="France">France</option>
+                            <option value="Gabon">Gabon</option>
+                            <option value="Gambia">Gambia</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="Greece">Greece</option>
+                            <option value="Grenada">Grenada</option>
+                            <option value="Guatemala">Guatemala</option>
+                            <option value="Guinea">Guinea</option>
+                            <option value="Guinea-Bissau">Guinea-Bissau</option>
+                            <option value="Guyana">Guyana</option>
+                            <option value="Haiti">Haiti</option>
+                            <option value="Honduras">Honduras</option>
+                            <option value="Hungary">Hungary</option>
+                            <option value="Iceland">Iceland</option>
+                            <option value="Indonesia">Indonesia</option>
+                            <option value="Iran">Iran</option>
+                            <option value="Iraq">Iraq</option>
+                            <option value="Ireland {Republic}">Ireland {Republic}</option>
+                            <option value="Israel">Israel</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Ivory Coast">Ivory Coast</option>
+                            <option value="Jamaica">Jamaica</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Jordan">Jordan</option>
+                            <option value="Kazakhstan">Kazakhstan</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Kiribati">Kiribati</option>
+                            <option value="Korea North">Korea North</option>
+                            <option value="Korea South">Korea South</option>
+                            <option value="Kosovo">Kosovo</option>
+                            <option value="Kuwait">Kuwait</option>
+                            <option value="Kyrgyzstan">Kyrgyzstan</option>
+                            <option value="Laos">Laos</option>
+                            <option value="Latvia">Latvia</option>
+                            <option value="Lebanon">Lebanon</option>
+                            <option value="Lesotho">Lesotho</option>
+                            <option value="Liberia">Liberia</option>
+                            <option value="Libya">Libya</option>
+                            <option value="Liechtenstein">Liechtenstein</option>
+                            <option value="Lithuania">Lithuania</option>
+                            <option value="Luxembourg">Luxembourg</option>
+                            <option value="Macedonia">Macedonia</option>
+                            <option value="Madagascar">Madagascar</option>
+                            <option value="Malawi">Malawi</option>
+                            <option value="Malaysia">Malaysia</option>
+                            <option value="Maldives">Maldives</option>
+                            <option value="Mali">Mali</option>
+                            <option value="Malta">Malta</option>
+                            <option value="Marshall Islands">Marshall Islands</option>
+                            <option value="Mauritania">Mauritania</option>
+                            <option value="Mauritius">Mauritius</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="Micronesia">Micronesia</option>
+                            <option value="Moldova">Moldova</option>
+                            <option value="Monaco">Monaco</option>
+                            <option value="Mongolia">Mongolia</option>
+                            <option value="Montenegro">Montenegro</option>
+                            <option value="Morocco">Morocco</option>
+                            <option value="Mozambique">Mozambique</option>
+                            <option value="Myanmar, {Burma}">Myanmar, {Burma}</option>
+                            <option value="Namibia">Namibia</option>
+                            <option value="Nauru">Nauru</option>
+                            <option value="Nepal">Nepal</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="New Zealand">New Zealand</option>
+                            <option value="Nicaragua">Nicaragua</option>
+                            <option value="Niger">Niger</option>
+                            <option value="Nigeria">Nigeria</option>
+                            <option value="Norway">Norway</option>
+                            <option value="Oman">Oman</option>
+                            <option value="Pakistan">Pakistan</option>
+                            <option value="Palau">Palau</option>
+                            <option value="Panama">Panama</option>
+                            <option value="Papua New Guinea">Papua New Guinea</option>
+                            <option value="Paraguay">Paraguay</option>
+                            <option value="Peru">Peru</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="Poland">Poland</option>
+                            <option value="Portugal">Portugal</option>
+                            <option value="Qatar">Qatar</option>
+                            <option value="Romania">Romania</option>
+                            <option value="Russian Federation">Russian Federation</option>
+                            <option value="Rwanda">Rwanda</option>
+                            <option value="St Kitts &amp; Nevis">St Kitts &amp; Nevis</option>
+                            <option value="St Lucia">St Lucia</option>
+                            <option value="Saint Vincent &amp; the Grenadines">Saint Vincent &amp; the Grenadines</option>
+                            <option value="Samoa">Samoa</option>
+                            <option value="San Marino">San Marino</option>
+                            <option value="Sao Tome &amp; Principe">Sao Tome &amp; Principe</option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="Senegal">Senegal</option>
+                            <option value="Serbia">Serbia</option>
+                            <option value="Seychelles">Seychelles</option>
+                            <option value="Sierra Leone">Sierra Leone</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Slovakia">Slovakia</option>
+                            <option value="Slovenia">Slovenia</option>
+                            <option value="Solomon Islands">Solomon Islands</option>
+                            <option value="Somalia">Somalia</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="South Sudan">South Sudan</option>
+                            <option value="Spain">Spain</option>
+                            <option value="Sri Lanka">Sri Lanka</option>
+                            <option value="Sudan">Sudan</option>
+                            <option value="Suriname">Suriname</option>
+                            <option value="Swaziland">Swaziland</option>
+                            <option value="Sweden">Sweden</option>
+                            <option value="Switzerland">Switzerland</option>
+                            <option value="Syria">Syria</option>
+                            <option value="Taiwan">Taiwan</option>
+                            <option value="Tajikistan">Tajikistan</option>
+                            <option value="Tanzania">Tanzania</option>
+                            <option value="Thailand">Thailand</option>
+                            <option value="Togo">Togo</option>
+                            <option value="Tonga">Tonga</option>
+                            <option value="Trinidad &amp; Tobago">Trinidad &amp; Tobago</option>
+                            <option value="Tunisia">Tunisia</option>
+                            <option value="Turkey">Turkey</option>
+                            <option value="Turkmenistan">Turkmenistan</option>
+                            <option value="Tuvalu">Tuvalu</option>
+                            <option value="Uganda">Uganda</option>
+                            <option value="Ukraine">Ukraine</option>
+                            <option value="United Arab Emirates">United Arab Emirates</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="United States">United States</option>
+                            <option value="Uruguay">Uruguay</option>
+                            <option value="Uzbekistan">Uzbekistan</option>
+                            <option value="Vanuatu">Vanuatu</option>
+                            <option value="Vatican City">Vatican City</option>
+                            <option value="Venezuela">Venezuela</option>
+                            <option value="Vietnam">Vietnam</option>
+                            <option value="Yemen">Yemen</option>
+                            <option value="Zambia">Zambia</option>
+                            <option value="Zimbabwe">Zimbabwe</option>
+                    </select>
+
+                    </div>
+                    <div style="padding: 20px; padding-top: 0px;">
+                        <p>Schedule Demo For</p>
+                            <select class="form-control"  required="required" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <option value="Atal">Atal Tinkering lab</option>
+                                <option value=" AI"> AI and Robotics Lab</option>
+                                <option value="Coding">Coding & AI Curriculum</option>
+                                <option value="Hardware">AI and Robotics Hardware Kits</option>
+                        </select>
+                    </div>
+
+                    <div style="padding: 20px; padding-top: 0px;">
+                        <p>Your Message</p>
+                        <textarea style="border-radius: 10px; width: 100%;" id="w3review" name="w3review" rows="4" cols="50"></textarea>
+                    </div>
+                    <div class="text-center" style="padding: 20px; padding-top: 0px;">
+                    <input style="width: 100px; margin-left:40%;" class="form-control" type="submit" value="submit"/>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+    </div>
+  </div>
+
+  <script>
+    function showOverlayfm() {
+      const overlayfm = document.getElementById('overlayfm');
+      overlayfm.classList.add('activefm');
+    }
+
+    function hideOverlayfm() {
+      const overlayfm = document.getElementById('overlayfm');
+      overlayfm.classList.remove('activefm');
+    }
+  </script>
+</div>
+<!------------------------------------------------------------------------->
+<!----------cart overlay--------->
+<!-- Cart Overlay -->
+
+<!--cart section started here-->
+<div class="floating-cart">
+    <button id="cartButton" onclick="openCart()">🛒</button>
+</div>
+
+<!--cart section ended here-->
+    <div class="overlayct hiddenct" id="cartOverlayct">
+        <div class="cartct">
+            <h2>Your Cart</h2>
+            <ul id="cartItemsct">
+                <!-- Cart items will be dynamically injected here -->
+            </ul>
+            <div class="cart-actionsct">
+                <button id="closeCartct">Close</button>
+                <button id="checkoutct">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const addToCartButtons = document.querySelectorAll(".add-to-cart");
+        const cartOverlay = document.getElementById("cartOverlayct");
+        const closeCartButton = document.getElementById("closeCartct");
+        const cartItemsList = document.getElementById("cartItemsct");
+
+        let cart = [];
+
+        function openCart() {
+            cartOverlay.classList.remove("hiddenct");
+            renderCartItems();
+        }
+
+        function closeCart() {
+            cartOverlay.classList.add("hiddenct");
+        }
+        function removeDollarSign(price) {
+            return parseFloat(price.replace('₹', '').trim());
+        }
+
+        function addToCart(event) {
+            const button = event.target
+            button.innerText = 'Add One More';
+            const id = button.dataset.id;
+            const name = button.dataset.name;
+            const price = parseFloat(removeDollarSign(button.dataset.price));
+
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ id, name, price, quantity: 1 });
+            }
+
+            saveCart();
+            openCart();
+        }
+
+        function renderCartItems() {
+            cartItemsList.innerHTML = "";
+            cart.forEach((item, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    ${item.name} - ₹${item.price} x
+                    <input type="number" min="1" value="${item.quantity}"
+                    onchange="updateQuantity(${index}, this.value)">
+                    <i class="fas fa-trash trash-icon" onclick="removeFromCart(${index})"> <img class="delete" onmouseover="changeImage(this, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAnElEQVR4nOXQMQ4BURSF4T+htYRZBCV7EOWUojYltRIle2AjLISWnoRkNCrVPedKBH9yy3e+5MG/NAPql5s7Q/Wb7nPAb7ROfM0qAkwTwCQClAmgjAC9BNCNAEUCKCJAA7gZ43egSbCjARwQ2hvATgG2BrBRgKUBLBSgMoCxAgwMoK8AHQNoK0ALuArjl+cbqRFwDoyfgKE6/j09AJFI8b7yqJNqAAAAAElFTkSuQmCC')" onmouseout="changeImage(this, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABAElEQVR4nOXUO2oCYRwE8CkknVcw6AV81BG9gI/aBwHbaNqINpY+WkUvoGir6AUU0yrJBQxaxV5Bg2FlKqv5S0AkA1+x8JtvtlgW+C+pADhdnOo1F53+6NxuwMknkf/8pCXAzoeCJ8Qxw0CcnbGCO8QvhoE8O20Fl6/4SmrslBScJe4aBnrsZBQcJZ4aBmbsRBTsI14ZBr7Y8Sr4AcAPgCMAl+Adc2DH6UrZ8I08gn2kXcOQd5aeBBumnVsGBiylBJum7VsGGiy9CbZIW7cMvLLUFGyLtmAZSLI0FOyINmEZCLG0EOySNmgZcAPYG/7/O3ZMyQHYCpd/A3i2Xn4/+QVXaHujT54Q+AAAAABJRU5ErkJggg==')" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABAElEQVR4nOXUO2oCYRwE8CkknVcw6AV81BG9gI/aBwHbaNqINpY+WkUvoGir6AUU0yrJBQxaxV5Bg2FlKqv5S0AkA1+x8JtvtlgW+C+pADhdnOo1F53+6NxuwMknkf/8pCXAzoeCJ8Qxw0CcnbGCO8QvhoE8O20Fl6/4SmrslBScJe4aBnrsZBQcJZ4aBmbsRBTsI14ZBr7Y8Sr4AcAPgCMAl+Adc2DH6UrZ8I08gn2kXcOQd5aeBBumnVsGBiylBJum7VsGGiy9CbZIW7cMvLLUFGyLtmAZSLI0FOyINmEZCLG0EOySNmgZcAPYG/7/O3ZMyQHYCpd/A3i2Xn4/+QVXaHujT54Q+AAAAABJRU5ErkJggg=="/></i>
+                `;
+                cartItemsList.appendChild(li);
+            });
+        }
+        function changeImage(imgElement, newSrc) {
+            imgElement.style.opacity = '0.1'
+            setTimeout(()=>{
+            imgElement.src = newSrc;
+            imgElement.style.opacity = '1'
+            },300)
+        }
+        function updateQuantity(index, quantity) {
+            cart[index].quantity = parseInt(quantity);
+            saveCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            renderCartItems();
+        }
+
+        function saveCart() {
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+
+        function loadCart() {
+            const savedCart = localStorage.getItem("cart");
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+        }
+
+        addToCartButtons.forEach(button => button.addEventListener("click", addToCart));
+        closeCartButton.addEventListener("click", closeCart);
+        loadCart();
+         window.scrollTo({ top: 0, behavior: "smooth" });
+    </script>
+<!------------------------------------------------------------------------------------------------------------------->
+<footer class="bg-gray-800 text-white py-8">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- About Section -->
+            <div class="space-y-4">
+                <h3 class="text-2xl font-semibold">About TORR Lab</h3>
+                <p class="text-sm">At TORR Lab, we are pioneers in providing cutting-edge coding, AI, robotics, and STEM education solutions. Our innovative lab setups and specialized courses aim to empower students with the skills of tomorrow. Whether it's developing AI models, mastering robotics, or learning advanced coding techniques, we offer hands-on learning experiences that prepare students for the future.</p>
+            </div>
+
+            <!-- Courses Section -->
+            <div class="space-y-4">
+                <h3 class="text-2xl font-semibold">Our Courses</h3>
+                <ul class="space-y-2">
+                    <li><a href="/courses/ai" class="text-sm hover:text-blue-400">Artificial Intelligence (AI)</a></li>
+                    <li><a href="/courses/robotics" class="text-sm hover:text-blue-400">Robotics & Automation</a></li>
+                    <li><a href="/courses/coding" class="text-sm hover:text-blue-400">Coding for All Levels</a></li>
+                    <li><a href="/courses/embedded-systems" class="text-sm hover:text-blue-400">Embedded Systems</a></li>
+                    <li><a href="/courses/stem" class="text-sm hover:text-blue-400">STEM Programs for Kids</a></li>
+                </ul>
+            </div>
+
+            <!-- Lab Setups Section -->
+            <div class="space-y-4">
+                <h3 class="text-2xl font-semibold">Our Lab Setups</h3>
+                <ul class="space-y-2">
+                    <li><a href="/lab-setup/ai-lab" class="text-sm hover:text-blue-400">AI Lab Setup</a></li>
+                    <li><a href="/lab-setup/robotics-lab" class="text-sm hover:text-blue-400">Robotics Lab Setup</a></li>
+                    <li><a href="/lab-setup/stem-lab" class="text-sm hover:text-blue-400">STEM Lab for Schools</a></li>
+                    <li><a href="/lab-setup/embedded-lab" class="text-sm hover:text-blue-400">Embedded Systems Lab</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="mt-8 border-t border-gray-600 pt-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold">Contact Us</h4>
+                    <p class="text-sm">Email: <a href="mailto:contact@torrlab.com" class="hover:text-blue-400">contact@torrlab.com</a></p>
+                    <p class="text-sm">Phone: <a href="tel:+123456789" class="hover:text-blue-400">+1 234-567-89</a></p>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/TORRLab" class="text-sm hover:text-blue-400" target="_blank">Facebook</a>
+                        <a href="https://www.twitter.com/TORRLab" class="text-sm hover:text-blue-400" target="_blank">Twitter</a>
+                        <a href="https://www.instagram.com/TORRLab" class="text-sm hover:text-blue-400" target="_blank">Instagram</a>
+                        <a href="https://www.linkedin.com/company/TORRLab" class="text-sm hover:text-blue-400" target="_blank">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright Section -->
+        <div class="mt-8 border-t border-gray-600 pt-4 text-center">
+            <p class="text-sm">© 2024 TORR Lab. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
